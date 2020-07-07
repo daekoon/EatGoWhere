@@ -1,13 +1,10 @@
-function getRandomRestaurant() {
-  const restaurants =
-      ['Din Tai Fung', 'Mcdonalds', 'KFC', 'Subway'];
-
+function getRandomRestaurant(restaurants) {
   // Pick a random restaurant.
   const restaurant = restaurants[Math.floor(Math.random() * restaurants.length)];
 
   // Add it to the page.
   const resElement = document.getElementById('restaurant-name');
-  resElement.innerText = restaurant;
+  resElement.innerHTML = "<p>" + restaurant.name + "</p><p>" + JSON.stringify(restaurant.geometry.location) + "</p>";
 }
 
 function initMap() {
@@ -88,6 +85,13 @@ function initMap() {
     curNameElement.innerText = place.name;
     curLocElement.innerText = place.geometry.location.toString();
 
-    getRandomRestaurant();
+    var url = new URL('/places-list', window.location.origin),
+        params = {lat: place.geometry.location.lat(), lng: place.geometry.location.lng()}
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    fetch(url).then((response => {
+      response.json().then((data) => {
+        getRandomRestaurant(data.results);
+      })
+    }))
   });
 }
