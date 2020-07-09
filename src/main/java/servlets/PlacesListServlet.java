@@ -33,7 +33,7 @@ public class PlacesListServlet extends HttpServlet {
         Double lat = Double.parseDouble(request.getParameter("lat"));
         Double lng = Double.parseDouble(request.getParameter("lng"));
         LatLng currentLocation = new LatLng(lat, lng);
-        String filters = request.getParameter("filter").replace(',', '|');
+        String filters = request.getParameter("filter").replace(',', '+');
 
         NearbySearchRequest nearbySearch = new NearbySearchRequest(this.context)
             .location(currentLocation)
