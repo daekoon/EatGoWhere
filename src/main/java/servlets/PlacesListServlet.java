@@ -39,7 +39,7 @@ public class PlacesListServlet extends HttpServlet {
             .location(currentLocation)
             .radius(500) // Metres, can change via filter
             .openNow(true)
-            .type(PlaceType.RESTAURANT);
+            .type(PlaceType.RESTAURANT)
             .keyword(filters);
         
         try {
