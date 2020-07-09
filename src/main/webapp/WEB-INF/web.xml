@@ -8,4 +8,12 @@
       <transport-guarantee>CONFIDENTIAL</transport-guarantee>
     </user-data-constraint>
   </security-constraint>
+  <servlet>
+    <servlet-name>PlacesListServlet</servlet-name>
+    <servlet-class>servlets.PlacesListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PlacesListServlet</servlet-name>
+    <url-pattern>/places-list</url-pattern>
+  </servlet-mapping>
 </web-app>
