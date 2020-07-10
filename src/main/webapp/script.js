@@ -100,12 +100,26 @@ function initMap() {
 }
 
 function getDieteryRestrictions() {
-   const filterForm = document.getElementsByClassName('restaurant-filter');
-   var filters = [];
+   const filterForm = document.getElementsByName('restaurant-filter');
    for (let filter of filterForm) {
      if (filter.checked) {
-       filters.push(filter.value);
+       return filter.value;
      }
    }
-   return filters;
+   return null;
+}
+
+const filterButtons = document.getElementsByName("restaurant-filter");
+var currentFilter;
+
+// Clicking checked button will make it unchecked
+for (let button of filterButtons) {
+    button.addEventListener('click', function(){
+      if (currentFilter == button ) {
+        button.checked = false;
+        currentFilter = null;
+      } else {
+        currentFilter = button;
+      }
+    });
 }
