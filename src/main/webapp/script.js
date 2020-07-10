@@ -71,7 +71,6 @@ function initMap() {
 
   document.getElementById("submit-button").addEventListener("click", function(){
     var place = autocomplete.getPlace();
-
     if (!place || !place.geometry) {
       // User clicked submit without choosing a field from autocomplete
       // or entered the name of a Place that was not suggested and
@@ -86,7 +85,11 @@ function initMap() {
     curLocElement.innerText = place.geometry.location.toString();
 
     var url = new URL('/places-list', window.location.origin),
-        params = {lat: place.geometry.location.lat(), lng: place.geometry.location.lng()}
+        params = {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+          filter: getDieteryRestrictions()
+        }
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     fetch(url).then((response => {
       response.json().then((data) => {
@@ -94,4 +97,29 @@ function initMap() {
       })
     }))
   });
+}
+
+function getDieteryRestrictions() {
+   const filterForm = document.getElementsByName('restaurant-filter');
+   for (let filter of filterForm) {
+     if (filter.checked) {
+       return filter.value;
+     }
+   }
+   return null;
+}
+
+const filterButtons = document.getElementsByName("restaurant-filter");
+var currentFilter;
+
+// Clicking checked button will make it unchecked
+for (let button of filterButtons) {
+    button.addEventListener('click', function(){
+      if (currentFilter == button ) {
+        button.checked = false;
+        currentFilter = null;
+      } else {
+        currentFilter = button;
+      }
+    });
 }
