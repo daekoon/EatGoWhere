@@ -33,14 +33,14 @@ public class PlacesListServlet extends HttpServlet {
         Double lat = Double.parseDouble(request.getParameter("lat"));
         Double lng = Double.parseDouble(request.getParameter("lng"));
         LatLng currentLocation = new LatLng(lat, lng);
-        String filters = request.getParameter("filter");
+        String filter = request.getParameter("filter");
 
         NearbySearchRequest nearbySearch = new NearbySearchRequest(this.context)
             .location(currentLocation)
             .radius(500) // Metres, can change via filter
             .openNow(true)
-            .type(PlaceType.RESTAURANT);
-            .keyword(filters);
+            .type(PlaceType.RESTAURANT)
+            .keyword(filter);
         
         try {
             PlacesSearchResponse nearby = nearbySearch.await(); //Returns top 20 results(One page)
