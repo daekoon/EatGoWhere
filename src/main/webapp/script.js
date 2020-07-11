@@ -1,6 +1,9 @@
 let map;
 let markers = [];
 
+const blueIconUrl = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+const orangeIconUrl = "http://maps.google.com/mapfiles/ms/icons/orange-dot.png";
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 1.2839, lng: 103.8607}, // default location, marina bay
@@ -114,12 +117,12 @@ function updateRestaurantList(restaurants) {
     // ratingElement.innerHTML = rating;
     // resElement.appendChild(ratingElement);
 
-    if(photoReference) {
-      const imgElement = document.createElement('img');
-      imgElement.src = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=150&photoreference="
-          + photoReference + "&key=AIzaSyCN-bDjEE_TtP8Md5Mm7RIdhpc6v9h3QoQ";
-      resElement.appendChild(imgElement);
-    }
+    // if(photoReference) {
+    //   const imgElement = document.createElement('img');
+    //   imgElement.src = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=150&photoreference="
+    //       + photoReference + "&key=API_KEY_HERE";
+    //   resElement.appendChild(imgElement);
+    // }
 
     resListElement.appendChild(resElement);
 
@@ -131,8 +134,8 @@ function updateRestaurantList(restaurants) {
       this.classList.add("selected");
       selectedElement = this;
 
-      selectedIndex && markers[selectedIndex].setIcon("http://maps.google.com/mapfiles/ms/icons/blue-dot.png");
-      markers[index].setIcon("http://maps.google.com/mapfiles/ms/icons/orange-dot.png");
+      selectedIndex && markers[selectedIndex].setIcon(blueIconUrl);
+      markers[index].setIcon(orangeIconUrl);
       selectedIndex = index;
     });
 
@@ -142,15 +145,23 @@ function updateRestaurantList(restaurants) {
       position: location,
       title: name,
       icon: {
-        url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+        url: blueIconUrl
       }
     });
     markers.push(restaurantMarker);
+
+    if(index == 0) {
+      selectedIndex = 0;
+      selectedElement = resElement;
+      resElement.classList.add("selected");
+      restaurantMarker.setIcon(orangeIconUrl);
+      map.panTo(location);
+      map.setZoom(18);
+    }
   }
 }
 
 function clearMarkers() {
-  console.log('delete');
   for(let i = 0; i < markers.length; i++) {
     markers[i].setMap(null);
   }
