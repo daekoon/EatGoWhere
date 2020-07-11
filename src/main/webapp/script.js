@@ -114,12 +114,12 @@ function updateRestaurantList(restaurants) {
     // ratingElement.innerHTML = rating;
     // resElement.appendChild(ratingElement);
 
-    // if(photoReference) {
-    //   const imgElement = document.createElement('img');
-    //   imgElement.src = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="
-    //       + photoReference + "&key=AIzaSyCN-bDjEE_TtP8Md5Mm7RIdhpc6v9h3QoQ";
-    //   resElement.appendChild(imgElement);
-    // }
+    if(photoReference) {
+      const imgElement = document.createElement('img');
+      imgElement.src = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=150&photoreference="
+          + photoReference + "&key=AIzaSyCN-bDjEE_TtP8Md5Mm7RIdhpc6v9h3QoQ";
+      resElement.appendChild(imgElement);
+    }
 
     resListElement.appendChild(resElement);
 

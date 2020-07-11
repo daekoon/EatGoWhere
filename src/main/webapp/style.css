@@ -20,6 +20,9 @@ h1 {
   top: 0;
   right: 0;
   width: 30vw;
+
+  max-height: 100vh;
+  overflow: auto;
 }
 
 /* Always set the map height explicitly to define the size of the div
@@ -118,11 +121,15 @@ h1 {
 }
 
 #restaurant-list li {
-  padding: 10px;
+  padding: 15px;
   background-color: #E3F2FD;
   margin: 10px 0;
   border-radius: 8px;
   cursor: pointer;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #restaurant-list li:hover {
@@ -142,6 +149,12 @@ h1 {
   font-size: 1.1rem;
   margin: 0;
   padding: 0;
+}
+
+#restaurant-list img {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
 }
 
 
