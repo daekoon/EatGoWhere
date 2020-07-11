@@ -3,12 +3,13 @@ var map;
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 1.2839, lng: 103.8607}, // default location, marina bay
-    zoom: 13
+    zoom: 13,
+    fullscreenControl: false,
   });
   var card = document.getElementById('pac-card');
   var input = document.getElementById('pac-input');
 
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+  // map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
 
   var autocomplete = new google.maps.places.Autocomplete(input);
 
@@ -72,11 +73,6 @@ function initMap() {
       return;
     }
 
-    const curNameElement = document.getElementById('current-name');
-    const curLocElement = document.getElementById('current-loc');
-    curNameElement.innerText = place.name;
-    curLocElement.innerText = place.geometry.location.toString();
-
     var url = new URL('/places-list', window.location.origin),
         params = {
           lat: place.geometry.location.lat(),
@@ -111,13 +107,13 @@ function getRandomRestaurant(restaurants) {
 
     const resElement = document.createElement('li');
 
-    const nameElement = document.createElement('p');
+    const nameElement = document.createElement('h3');
     nameElement.innerHTML = name;
     resElement.appendChild(nameElement);
 
-    const ratingElement = document.createElement('p');
-    ratingElement.innerHTML = rating;
-    resElement.appendChild(ratingElement);
+    // const ratingElement = document.createElement('p');
+    // ratingElement.innerHTML = rating;
+    // resElement.appendChild(ratingElement);
 
     resListElement.appendChild(resElement);
 
