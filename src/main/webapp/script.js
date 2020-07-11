@@ -101,6 +101,11 @@ let selectedIndex;
 function updateRestaurantList(restaurants) {
   let resListElement = document.getElementById("restaurant-list");
   resListElement.innerHTML = '';
+
+  if(restaurants.length == 0) {
+    resListElement.innerHTML = "No restaurant found.";
+  }
+
   for(let index in restaurants) {
     const { geometry: {location}, placeId, name, photos, rating } = restaurants[index];
     const photoReference = photos[0].photoReference;
