@@ -119,14 +119,22 @@ h1 {
 
 #restaurant-list li {
   padding: 10px;
-  background-color: lavender;
+  background-color: #E3F2FD;
   margin: 10px 0;
   border-radius: 8px;
   cursor: pointer;
 }
 
 #restaurant-list li:hover {
-  background-color: lavenderblush;
+  background-color: #BBDEFB;
+}
+
+#restaurant-list .selected {
+  background: #FFCC80;
+}
+
+#restaurant-list .selected:hover {
+  background: #FFB74D;
 }
 
 #restaurant-list h3 {

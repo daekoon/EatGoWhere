@@ -1,17 +1,19 @@
-var map;
+let map;
+let markers = [];
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 1.2839, lng: 103.8607}, // default location, marina bay
     zoom: 13,
     fullscreenControl: false,
+    streetViewControl: false,
   });
-  var card = document.getElementById('pac-card');
-  var input = document.getElementById('pac-input');
+
+  let input = document.getElementById('pac-input');
 
   // map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
 
-  var autocomplete = new google.maps.places.Autocomplete(input);
+  let autocomplete = new google.maps.places.Autocomplete(input);
 
   // Set the data fields to return when the user selects a place.
   autocomplete.setFields(
@@ -64,6 +66,7 @@ function initMap() {
 
 
   document.getElementById("submit-button").addEventListener("click", function(){
+    clearMarkers();
     var place = autocomplete.getPlace();
     if (!place || !place.geometry) {
       // User clicked submit without choosing a field from autocomplete
@@ -88,6 +91,9 @@ function initMap() {
   });
 }
 
+let selectedElement;
+let selectedIndex;
+
 function getRandomRestaurant(restaurants) {
 
   console.log(restaurants);
@@ -102,23 +108,41 @@ function getRandomRestaurant(restaurants) {
 
   let resListElement = document.getElementById("restaurant-list");
   resListElement.innerHTML = '';
-  for(let id in restaurants) {
-    const { geometry: {location}, placeId, name, photos, rating } = restaurants[id];
+  for(let index in restaurants) {
+    const { geometry: {location}, placeId, name, photos, rating } = restaurants[index];
+    const photoReference = photos[0].photoReference;
 
     const resElement = document.createElement('li');
 
     const nameElement = document.createElement('h3');
     nameElement.innerHTML = name;
     resElement.appendChild(nameElement);
+    resElement.id = placeId;
 
     // const ratingElement = document.createElement('p');
     // ratingElement.innerHTML = rating;
     // resElement.appendChild(ratingElement);
 
+    // if(photoReference) {
+    //   const imgElement = document.createElement('img');
+    //   imgElement.src = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="
+    //       + photoReference + "&key=AIzaSyCN-bDjEE_TtP8Md5Mm7RIdhpc6v9h3QoQ";
+    //   resElement.appendChild(imgElement);
+    // }
+
     resListElement.appendChild(resElement);
 
     resElement.addEventListener('click', function() {
       map.panTo(location);
+      map.setZoom(18);
+
+      selectedElement && selectedElement.classList.remove("selected");
+      this.classList.add("selected");
+      selectedElement = this;
+
+      selectedIndex && markers[selectedIndex].setIcon("http://maps.google.com/mapfiles/ms/icons/blue-dot.png");
+      markers[index].setIcon("http://maps.google.com/mapfiles/ms/icons/orange-dot.png");
+      selectedIndex = index;
     });
 
     let restaurantMarker = new google.maps.Marker({
@@ -130,8 +154,18 @@ function getRandomRestaurant(restaurants) {
         url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
       }
     });
+    markers.push(restaurantMarker);
   }
+}
 
+function clearMarkers() {
+  console.log('delete');
+  for(let i = 0; i < markers.length; i++) {
+    markers[i].setMap(null);
+  }
+  markers = [];
+  selectedElement = null;
+  selectedIndex = null;
 }
 
 function getDieteryRestrictions() {
