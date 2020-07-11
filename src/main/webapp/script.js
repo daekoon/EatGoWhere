@@ -19,10 +19,10 @@ function initMap() {
   autocomplete.setFields(
       ['address_components', 'geometry', 'icon', 'name']);
 
-  var infowindow = new google.maps.InfoWindow();
-  var infowindowContent = document.getElementById('infowindow-content');
+  let infowindow = new google.maps.InfoWindow();
+  let infowindowContent = document.getElementById('infowindow-content');
   infowindow.setContent(infowindowContent);
-  var marker = new google.maps.Marker({
+  let marker = new google.maps.Marker({
     map: map,
     anchorPoint: new google.maps.Point(0, -29)
   });
@@ -31,7 +31,7 @@ function initMap() {
   autocomplete.addListener('place_changed', function() {
     infowindow.close();
     marker.setVisible(false);
-    var place = autocomplete.getPlace();
+    let place = autocomplete.getPlace();
     if (!place.geometry) {
       // User entered the name of a Place that was not suggested and
       // pressed the Enter key, or the Place Details request failed.
@@ -67,7 +67,7 @@ function initMap() {
 
   document.getElementById("submit-button").addEventListener("click", function(){
     clearMarkers();
-    var place = autocomplete.getPlace();
+    let place = autocomplete.getPlace();
     if (!place || !place.geometry) {
       // User clicked submit without choosing a field from autocomplete
       // or entered the name of a Place that was not suggested and
@@ -76,16 +76,17 @@ function initMap() {
       return;
     }
 
-    var url = new URL('/places-list', window.location.origin),
+    const url = new URL('/places-list', window.location.origin),
         params = {
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng(),
           filter: getDieteryRestrictions()
         }
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+
     fetch(url).then((response => {
       response.json().then((data) => {
-        getRandomRestaurant(data.results);
+        updateRestaurantList(data.results);
       })
     }))
   });
@@ -94,18 +95,8 @@ function initMap() {
 let selectedElement;
 let selectedIndex;
 
-function getRandomRestaurant(restaurants) {
-
+function updateRestaurantList(restaurants) {
   console.log(restaurants);
-
-  // Pick a random restaurant.
-  // const restaurant = restaurants[Math.floor(Math.random() * restaurants.length)];
-
-  // Add it to the page.
-  // const resElement = document.getElementById('restaurant-name');
-  // resElement.innerHTML = "<p>" + restaurant.name + "</p><p>" + JSON.stringify(restaurant.geometry.location) + "</p>";
-
-
   let resListElement = document.getElementById("restaurant-list");
   resListElement.innerHTML = '';
   for(let index in restaurants) {
@@ -179,7 +170,7 @@ function getDieteryRestrictions() {
 }
 
 const filterButtons = document.getElementsByName("restaurant-filter");
-var currentFilter;
+let currentFilter;
 
 // Clicking checked button will make it unchecked
 for (let button of filterButtons) {
