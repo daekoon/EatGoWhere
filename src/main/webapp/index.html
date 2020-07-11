@@ -15,45 +15,48 @@
     <script src="script.js" defer></script>
     <!-- Replace the value of the key parameter with your own API key. -->
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=API_KEY_HERE&libraries=places&callback=initMap"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQOaxpasHdNc5bF4dTDNureWyCxwQ-Lzc&libraries=places&callback=initMap"
       defer
     ></script>
   </head>
 
   <body>
-    <h1>Welcome to EatGoWhere!</h1>
-    <p id="current-name"></p>
-    <p id="current-loc"></p>
-    <p id="restaurant-name"></p>
-    <div class="pac-card" id="pac-card">
-      <div>
-        <div id="pac-title">
-          Where are you?
+    <div id="map-container">
+      <div id="map"></div>
+      <div id="infowindow-content">
+        <img src="" width="16" height="16" id="place-icon" />
+        <span id="place-name" class="title"></span><br />
+        <span id="place-address"></span>
+      </div>
+    </div>
+    <div id="right-tab">
+      <div id="pac-card">
+        <h1>EatGoWhere</h1>
+        <input id="pac-input" type="text" placeholder="Enter your location" />
+        <div id="pac-container">
+            <form id="restaurant-filter">
+              <fieldset>
+                <legend>Dietery Restrictions</legend>
+                <input type="radio" name="restaurant-filter" id="halal" value="halal">
+                <label for="halal">Halal</label>
+                <input type="radio" name="restaurant-filter" id="vegetarian" value="vegetarian">
+                <label for="vegetarian">Vegetarian</label>
+                <input type="radio" name="restaurant-filter" id="vegan" value="vegan">
+                <label for="vegan">Vegan</label>
+                <input type="radio" name="restaurant-filter" id="gluten-free" value="gluten-free">
+                <label for="gluten-free">Gluten Free</label>
+              </fieldset>
+            </form>
+
+          <button id="submit-button">Submit</button>
         </div>
+
       </div>
-      <div id="pac-container">
-        <input id="pac-input" type="text" placeholder="Enter a location" />
+
+      <div id="result-container">
+        <ul id="restaurant-list"></ul>
       </div>
+
     </div>
-    <div id="map"></div>
-    <div id="infowindow-content">
-      <img src="" width="16" height="16" id="place-icon" />
-      <span id="place-name" class="title"></span><br />
-      <span id="place-address"></span>
-    </div>
-    <form id="restaurant-filter-container">
-      <fieldset>
-        <legend>Dietery Restrictions</legend>
-        <input type="radio" name="restaurant-filter" id="halal" value="halal">
-        <label for="halal">Halal</label>
-        <input type="radio" name="restaurant-filter" id="vegetarian" value="vegetarian">
-        <label for="vegetarian">Vegetarian</label>
-        <input type="radio" name="restaurant-filter" id="vegan" value="vegan">
-        <label for="vegan">Vegan</label>
-        <input type="radio" name="restaurant-filter" id="gluten-free" value="gluten-free">
-        <label for="gluten-free">Gluten Free</label>
-      </fieldset>
-    </form>
-    <button id="submit-button">Submit</button>
   </body>
 </html>

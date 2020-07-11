@@ -1,32 +1,31 @@
-function getRandomRestaurant(restaurants) {
-  // Pick a random restaurant.
-  const restaurant = restaurants[Math.floor(Math.random() * restaurants.length)];
+let map;
+let markers = [];
 
-  // Add it to the page.
-  const resElement = document.getElementById('restaurant-name');
-  resElement.innerHTML = "<p>" + restaurant.name + "</p><p>" + JSON.stringify(restaurant.geometry.location) + "</p>";
-}
+const blueIconUrl = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+const orangeIconUrl = "http://maps.google.com/mapfiles/ms/icons/orange-dot.png";
 
 function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 1.2839, lng: 103.8607}, // default location, marina bay
-    zoom: 13
+    zoom: 13,
+    fullscreenControl: false,
+    streetViewControl: false,
   });
-  var card = document.getElementById('pac-card');
-  var input = document.getElementById('pac-input');
 
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+  let input = document.getElementById('pac-input');
 
-  var autocomplete = new google.maps.places.Autocomplete(input);
+  // map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+
+  let autocomplete = new google.maps.places.Autocomplete(input);
 
   // Set the data fields to return when the user selects a place.
   autocomplete.setFields(
       ['address_components', 'geometry', 'icon', 'name']);
 
-  var infowindow = new google.maps.InfoWindow();
-  var infowindowContent = document.getElementById('infowindow-content');
+  let infowindow = new google.maps.InfoWindow();
+  let infowindowContent = document.getElementById('infowindow-content');
   infowindow.setContent(infowindowContent);
-  var marker = new google.maps.Marker({
+  let marker = new google.maps.Marker({
     map: map,
     anchorPoint: new google.maps.Point(0, -29)
   });
@@ -35,7 +34,7 @@ function initMap() {
   autocomplete.addListener('place_changed', function() {
     infowindow.close();
     marker.setVisible(false);
-    var place = autocomplete.getPlace();
+    let place = autocomplete.getPlace();
     if (!place.geometry) {
       // User entered the name of a Place that was not suggested and
       // pressed the Enter key, or the Place Details request failed.
@@ -70,7 +69,8 @@ function initMap() {
 
 
   document.getElementById("submit-button").addEventListener("click", function(){
-    var place = autocomplete.getPlace();
+    clearMarkers();
+    let place = autocomplete.getPlace();
     if (!place || !place.geometry) {
       // User clicked submit without choosing a field from autocomplete
       // or entered the name of a Place that was not suggested and
@@ -79,24 +79,99 @@ function initMap() {
       return;
     }
 
-    const curNameElement = document.getElementById('current-name');
-    const curLocElement = document.getElementById('current-loc');
-    curNameElement.innerText = place.name;
-    curLocElement.innerText = place.geometry.location.toString();
-
-    var url = new URL('/places-list', window.location.origin),
+    const url = new URL('/places-list', window.location.origin),
         params = {
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng(),
           filter: getDieteryRestrictions()
         }
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+
     fetch(url).then((response => {
       response.json().then((data) => {
-        getRandomRestaurant(data.results);
+        updateRestaurantList(data.results);
       })
     }))
   });
+}
+
+let selectedElement;
+let selectedIndex;
+
+function updateRestaurantList(restaurants) {
+  let resListElement = document.getElementById("restaurant-list");
+  resListElement.innerHTML = '';
+
+  if(restaurants.length == 0) {
+    resListElement.innerHTML = "No restaurant found.";
+  }
+
+  for(let index in restaurants) {
+    const { geometry: {location}, placeId, name, photos, rating } = restaurants[index];
+    const photoReference = photos[0].photoReference;
+
+    const resElement = document.createElement('li');
+
+    const nameElement = document.createElement('h3');
+    nameElement.innerHTML = name;
+    resElement.appendChild(nameElement);
+    resElement.id = placeId;
+
+    // const ratingElement = document.createElement('p');
+    // ratingElement.innerHTML = rating;
+    // resElement.appendChild(ratingElement);
+
+    // if(photoReference) {
+    //   const imgElement = document.createElement('img');
+    //   imgElement.src = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=150&photoreference="
+    //       + photoReference + "&key=API_KEY_HERE";
+    //   resElement.appendChild(imgElement);
+    // }
+
+    resListElement.appendChild(resElement);
+
+    resElement.addEventListener('click', function() {
+      map.panTo(location);
+      map.setZoom(18);
+
+      selectedElement && selectedElement.classList.remove("selected");
+      this.classList.add("selected");
+      selectedElement = this;
+
+      selectedIndex && markers[selectedIndex].setIcon(blueIconUrl);
+      markers[index].setIcon(orangeIconUrl);
+      selectedIndex = index;
+    });
+
+    let restaurantMarker = new google.maps.Marker({
+      map: map,
+      anchorPoint: new google.maps.Point(0, -29),
+      position: location,
+      title: name,
+      icon: {
+        url: blueIconUrl
+      }
+    });
+    markers.push(restaurantMarker);
+
+    if(index == 0) {
+      selectedIndex = 0;
+      selectedElement = resElement;
+      resElement.classList.add("selected");
+      restaurantMarker.setIcon(orangeIconUrl);
+      map.panTo(location);
+      map.setZoom(18);
+    }
+  }
+}
+
+function clearMarkers() {
+  for(let i = 0; i < markers.length; i++) {
+    markers[i].setMap(null);
+  }
+  markers = [];
+  selectedElement = null;
+  selectedIndex = null;
 }
 
 function getDieteryRestrictions() {
@@ -110,7 +185,7 @@ function getDieteryRestrictions() {
 }
 
 const filterButtons = document.getElementsByName("restaurant-filter");
-var currentFilter;
+let currentFilter;
 
 // Clicking checked button will make it unchecked
 for (let button of filterButtons) {
