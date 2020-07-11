@@ -99,7 +99,6 @@ let selectedElement;
 let selectedIndex;
 
 function updateRestaurantList(restaurants) {
-  console.log(restaurants);
   let resListElement = document.getElementById("restaurant-list");
   resListElement.innerHTML = '';
   for(let index in restaurants) {
