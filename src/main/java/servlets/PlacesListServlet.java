@@ -46,6 +46,7 @@ public class PlacesListServlet extends HttpServlet {
             PlacesSearchResponse nearby = nearbySearch.await(); //Returns top 20 results(One page)
 
             response.setContentType("application/json;");
+            response.setCharacterEncoding("UTF-8");
             Gson gson = new Gson();
             response.getWriter().println(gson.toJson(nearby));
         }
