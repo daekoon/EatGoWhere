@@ -24,7 +24,7 @@ public class PlacesListServlet extends HttpServlet {
     @Override
     public void init() {
         this.context = new GeoApiContext.Builder()
-            .apiKey("API_KEY_HERE")
+            .apiKey("AIzaSyCN-bDjEE_TtP8Md5Mm7RIdhpc6v9h3QoQ")
             .build();
     }
 

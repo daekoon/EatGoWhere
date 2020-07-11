@@ -1,14 +1,7 @@
-function getRandomRestaurant(restaurants) {
-  // Pick a random restaurant.
-  const restaurant = restaurants[Math.floor(Math.random() * restaurants.length)];
-
-  // Add it to the page.
-  const resElement = document.getElementById('restaurant-name');
-  resElement.innerHTML = "<p>" + restaurant.name + "</p><p>" + JSON.stringify(restaurant.geometry.location) + "</p>";
-}
+var map;
 
 function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 1.2839, lng: 103.8607}, // default location, marina bay
     zoom: 13
   });
@@ -97,6 +90,52 @@ function initMap() {
       })
     }))
   });
+}
+
+function getRandomRestaurant(restaurants) {
+
+  console.log(restaurants);
+
+  // Pick a random restaurant.
+  // const restaurant = restaurants[Math.floor(Math.random() * restaurants.length)];
+
+  // Add it to the page.
+  // const resElement = document.getElementById('restaurant-name');
+  // resElement.innerHTML = "<p>" + restaurant.name + "</p><p>" + JSON.stringify(restaurant.geometry.location) + "</p>";
+
+
+  let resListElement = document.getElementById("restaurant-list");
+  resListElement.innerHTML = '';
+  for(let id in restaurants) {
+    const { geometry: {location}, placeId, name, photos, rating } = restaurants[id];
+
+    const resElement = document.createElement('li');
+
+    const nameElement = document.createElement('p');
+    nameElement.innerHTML = name;
+    resElement.appendChild(nameElement);
+
+    const ratingElement = document.createElement('p');
+    ratingElement.innerHTML = rating;
+    resElement.appendChild(ratingElement);
+
+    resListElement.appendChild(resElement);
+
+    resElement.addEventListener('click', function() {
+      map.panTo(location);
+    });
+
+    let restaurantMarker = new google.maps.Marker({
+      map: map,
+      anchorPoint: new google.maps.Point(0, -29),
+      position: location,
+      title: name,
+      icon: {
+        url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+      }
+    });
+  }
+
 }
 
 function getDieteryRestrictions() {
