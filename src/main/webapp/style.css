@@ -23,6 +23,8 @@ h1 {
 
   max-height: 100vh;
   overflow: auto;
+
+  pointer-events: none;
 }
 
 /* Always set the map height explicitly to define the size of the div
@@ -58,6 +60,7 @@ h1 {
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   background-color: #fff;
+  pointer-events: all;
 }
 
 #pac-input {
@@ -65,7 +68,7 @@ h1 {
   font-size: 1rem;
   font-weight: 300;
   text-overflow: ellipsis;
-  width: 25vw;
+  width: calc(100% - 20px);
 }
 
 #pac-input:focus {
@@ -104,6 +107,7 @@ h1 {
 }
 
 #result-container {
+  display: none;
   margin: 10px;
   padding: 20px;
   border-radius: 8px;
@@ -112,6 +116,12 @@ h1 {
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   background-color: #fff;
+  pointer-events: all;
+}
+
+#result-container h2 {
+  margin: .2rem 0;
+  font-size: 1.2rem;
 }
 
 #restaurant-list {
@@ -155,6 +165,23 @@ h1 {
   height: 80px;
   width: 80px;
   object-fit: cover;
+}
+
+@media only screen and (max-width: 768px) {
+  #right-tab {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  #result-container {
+    max-height: 30vh;
+    margin: 10px;
+    width: calc(100% - 20px);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+  }
 }
 
 

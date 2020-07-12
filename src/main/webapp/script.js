@@ -99,6 +99,9 @@ let selectedElement;
 let selectedIndex;
 
 function updateRestaurantList(restaurants) {
+  let resContainerElement = document.getElementById("result-container");
+  resContainerElement.style.display = "block";
+
   let resListElement = document.getElementById("restaurant-list");
   resListElement.innerHTML = '';
 
@@ -134,11 +137,11 @@ function updateRestaurantList(restaurants) {
       map.panTo(location);
       map.setZoom(18);
 
-      selectedElement && selectedElement.classList.remove("selected");
+      selectedElement.classList.remove("selected");
       this.classList.add("selected");
       selectedElement = this;
 
-      selectedIndex && markers[selectedIndex].setIcon(blueIconUrl);
+      markers[selectedIndex].setIcon(blueIconUrl);
       markers[index].setIcon(orangeIconUrl);
       selectedIndex = index;
     });
@@ -152,7 +155,6 @@ function updateRestaurantList(restaurants) {
         url: blueIconUrl
       }
     });
-    markers.push(restaurantMarker);
 
     if(index == 0) {
       selectedIndex = 0;
@@ -162,6 +164,8 @@ function updateRestaurantList(restaurants) {
       map.panTo(location);
       map.setZoom(18);
     }
+
+    markers.push(restaurantMarker);
   }
 }
 
