@@ -12,8 +12,16 @@
     <servlet-name>PlacesListServlet</servlet-name>
     <servlet-class>servlets.PlacesListServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>PlacesPhotoServlet</servlet-name>
+    <servlet-class>servlets.PlacesPhotoServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>PlacesListServlet</servlet-name>
     <url-pattern>/places-list</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PlacesPhotoServlet</servlet-name>
+    <url-pattern>/places-photo</url-pattern>
   </servlet-mapping>
 </web-app>
