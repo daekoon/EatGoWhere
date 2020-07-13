@@ -130,6 +130,10 @@ function updateRestaurantList(restaurants) {
 
       const imgElement = document.createElement('img');
       imgElement.src = url;
+      imgElement.onerror = function() {
+        this.onerror = null;
+        this.src = '';
+      }
       resElement.appendChild(imgElement);
     }
 
