@@ -106,21 +106,29 @@ function updateRestaurantList(restaurants) {
     resListElement.innerHTML = "No restaurant found.";
   }
 
-  shareWhatsappElem = document.createElement('a');
-  shareWhatsappIcon = document.createElement('span');
-  shareWhatsappIcon.className = 'iconify';
-  shareWhatsappIcon.setAttribute('data-icon', 'fa-whatsapp');
-  shareWhatsappIcon.setAttribute('data-inline', 'false');
-  shareWhatsappElem.appendChild(shareWhatsappIcon);
-  document.getElementById('result-share-container').appendChild(shareWhatsappElem);
+  if (!document.getElementById('whatsapp-share')) {
+    shareWhatsappElem = document.createElement('a');
+    shareWhatsappIcon = document.createElement('span');
+    shareWhatsappIcon.className = 'iconify';
+    shareWhatsappIcon.setAttribute('data-icon', 'fa-whatsapp');
+    shareWhatsappIcon.setAttribute('data-inline', 'false');
+    shareWhatsappElem.appendChild(shareWhatsappIcon);
+    shareWhatsappElem.id = 'whatsapp-share';
+    document.getElementById('result-share-container').appendChild(shareWhatsappElem);
 
-  shareTelegramElem = document.createElement('a');
-  shareTelegramIcon = document.createElement('span');
-  shareTelegramIcon.className = 'iconify';
-  shareTelegramIcon.setAttribute('data-icon', 'ei-sc-telegram');
-  shareTelegramIcon.setAttribute('data-inline', 'false');
-  shareTelegramElem.appendChild(shareTelegramIcon);
-  document.getElementById('result-share-container').appendChild(shareTelegramElem);
+    shareTelegramElem = document.createElement('a');
+    shareTelegramIcon = document.createElement('span');
+    shareTelegramIcon.className = 'iconify';
+    shareTelegramIcon.setAttribute('data-icon', 'ei-sc-telegram');
+    shareTelegramIcon.setAttribute('data-inline', 'false');
+    shareTelegramElem.appendChild(shareTelegramIcon);
+    shareTelegramElem.id = 'telegram-share';
+    document.getElementById('result-share-container').appendChild(shareTelegramElem);
+  }
+  else {
+    shareWhatsappElem = document.getElementById('whatsapp-share');
+    shareTelegramElem = document.getElementById('telegram-share');
+  }
 
   for(let index in restaurants) {
     const { geometry: {location}, placeId, name, photos, rating } = restaurants[index];
