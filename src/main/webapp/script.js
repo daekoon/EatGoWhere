@@ -106,9 +106,25 @@ function updateRestaurantList(restaurants) {
     resListElement.innerHTML = "No restaurant found.";
   }
 
+  shareWhatsappElem = document.createElement('a');
+  shareWhatsappIcon = document.createElement('span');
+  shareWhatsappIcon.className = 'iconify';
+  shareWhatsappIcon.setAttribute('data-icon', 'fa-whatsapp');
+  shareWhatsappIcon.setAttribute('data-inline', 'false');
+  shareWhatsappElem.appendChild(shareWhatsappIcon);
+  document.getElementById('result-share-container').appendChild(shareWhatsappElem);
+
+  shareTelegramElem = document.createElement('a');
+  shareTelegramIcon = document.createElement('span');
+  shareTelegramIcon.className = 'iconify';
+  shareTelegramIcon.setAttribute('data-icon', 'ei-sc-telegram');
+  shareTelegramIcon.setAttribute('data-inline', 'false');
+  shareTelegramElem.appendChild(shareTelegramIcon);
+  document.getElementById('result-share-container').appendChild(shareTelegramElem);
+
   for(let index in restaurants) {
     const { geometry: {location}, placeId, name, photos, rating } = restaurants[index];
-    const photoReference = photos[0].photoReference;
+    
 
     const resElement = document.createElement('li');
 
@@ -121,7 +137,8 @@ function updateRestaurantList(restaurants) {
     // ratingElement.innerHTML = rating;
     // resElement.appendChild(ratingElement);
 
-    if(photoReference) {
+    if(photos) {
+      const photoReference = photos[0].photoReference;
       const url = new URL('/places-photo', window.location.origin),
         params = {
           photoRef: photoReference
@@ -150,6 +167,9 @@ function updateRestaurantList(restaurants) {
       selectedIndex && markers[selectedIndex].setIcon(blueIconUrl);
       markers[index].setIcon(orangeIconUrl);
       selectedIndex = index;
+
+      shareWhatsappElem.href = `https://wa.me/?text=Let's%20eat%20at%20${encodeURI(name)}!`;
+      shareTelegramElem.href = `https://t.me/share/url?url=Insert%20URL%20here&text=Let's%20eat%20at%20${encodeURI(name)}!` //https://t.me/share/url?url={url}&text={text}
     });
 
     let restaurantMarker = new google.maps.Marker({
@@ -170,6 +190,8 @@ function updateRestaurantList(restaurants) {
       restaurantMarker.setIcon(orangeIconUrl);
       map.panTo(location);
       map.setZoom(18);
+      shareWhatsappElem.href = `https://wa.me/?text=Let's%20eat%20at%20${encodeURI(name)}!`;
+      shareTelegramElem.href = `https://t.me/share/url?url=Insert%20URL%20here&text=Let's%20eat%20at%20${encodeURI(name)}!`
     }
   }
 }
@@ -209,6 +231,6 @@ for (let button of filterButtons) {
 }
 
 function clearPACInput() {
-  const elem = document.getElementById('pac-input');
-  elem.value = '';
+  const pacClearElem = document.getElementById('pac-input');
+  pacClearElem.value = '';
 }

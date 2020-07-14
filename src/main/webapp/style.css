@@ -70,8 +70,9 @@ h1 {
 
 #pac-clear:hover,
 #pac-clear:focus {
-    text-decoration: none;
-    cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 #pac-input {
@@ -171,4 +172,6 @@ h1 {
   object-fit: cover;
 }
 
-
+#result-share-container {
+  display: flex;
+}
