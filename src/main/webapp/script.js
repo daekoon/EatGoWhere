@@ -1,8 +1,9 @@
 let map;
 let markers = [];
 
-const blueIconUrl = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
-const orangeIconUrl = "http://maps.google.com/mapfiles/ms/icons/orange-dot.png";
+const blueIconUrl = "https://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+const orangeIconUrl = "https://maps.google.com/mapfiles/ms/icons/orange-dot.png";
+const directionIconUrl = "https://gstatic.com/images/icons/material/system/2x/directions_gm_blue_20dp.png";
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -143,6 +144,7 @@ function updateRestaurantList(restaurants) {
       map.panTo(location);
       map.setZoom(18);
 
+      updateRestaurantInfo(restaurants[index], markers[index]);
       selectedElement && selectedElement.classList.remove("selected");
       this.classList.add("selected");
       selectedElement = this;
@@ -170,6 +172,7 @@ function updateRestaurantList(restaurants) {
       restaurantMarker.setIcon(orangeIconUrl);
       map.panTo(location);
       map.setZoom(18);
+      updateRestaurantInfo(restaurants[index], markers[index]);
     }
   }
 }
@@ -206,4 +209,36 @@ for (let button of filterButtons) {
         currentFilter = button;
       }
     });
+}
+
+let infowindow;
+function updateRestaurantInfo(restaurant, marker) {
+  if (!infowindow) {
+    infowindow = new google.maps.InfoWindow();
+  }
+  let { geometry: {location}, placeId, name, photos, rating } = restaurant;
+
+  let params = {
+    api: 1,
+    destination: name,
+    destination_place_id: placeId
+  }
+  const dir_url = new URL('https://www.google.com/maps/dir/');
+  Object.keys(params).forEach(key => dir_url.searchParams.append(key, params[key]));
+
+  let contentString =
+    '<div id="info-container">' +
+      '<h1 id="info-name">' + name + '</h1>' +
+      '<div id="info-body">' +
+        '<a target="_blank"' +
+          ' href="' + dir_url + '">' +
+          '<img src="' + directionIconUrl + '">' +
+        '</a>' +
+      '</div>' +
+    '</div>';
+
+  // closes previous infowindow
+  infowindow.close();
+  infowindow.setContent(contentString);
+  infowindow.open(map, marker);
 }

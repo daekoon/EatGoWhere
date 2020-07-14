@@ -157,4 +157,14 @@ h1 {
   object-fit: cover;
 }
 
+#info-container * {
+  overflow: auto;
+}
 
+#info-container *{
+  float: left;
+}
+
+#info-name {
+  width: calc(100% - 50px);
+}
