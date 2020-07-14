@@ -111,7 +111,6 @@ function updateRestaurantList(restaurants) {
 
   for(let index in restaurants) {
     const { geometry: {location}, placeId, name, photos, rating } = restaurants[index];
-    const photoReference = photos[0].photoReference;
 
     const resElement = document.createElement('li');
 
@@ -124,7 +123,8 @@ function updateRestaurantList(restaurants) {
     // ratingElement.innerHTML = rating;
     // resElement.appendChild(ratingElement);
 
-    if(photoReference) {
+    if(photos) {
+      const photoReference = photos[0].photoReference;
       const url = new URL('/places-photo', window.location.origin),
         params = {
           photoRef: photoReference
