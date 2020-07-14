@@ -167,6 +167,8 @@ function updateRestaurantList(restaurants) {
       }
     });
 
+    markers.push(restaurantMarker);
+
     if(index == 0) {
       selectedIndex = 0;
       selectedElement = resElement;
@@ -176,8 +178,6 @@ function updateRestaurantList(restaurants) {
       map.setZoom(18);
       updateRestaurantInfo(restaurants[index], markers[index]);
     }
-
-    markers.push(restaurantMarker);
   }
 }
 
@@ -231,15 +231,14 @@ function updateRestaurantInfo(restaurant, marker) {
   Object.keys(params).forEach(key => dir_url.searchParams.append(key, params[key]));
 
   let contentString =
-    '<div id="info-container">' +
-      '<h1 id="info-name">' + name + '</h1>' +
-      '<div id="info-body">' +
-        '<a target="_blank"' +
-          ' href="' + dir_url + '">' +
-          '<img src="' + directionIconUrl + '">' +
-        '</a>' +
-      '</div>' +
-    '</div>';
+    `<div id="info-container">
+      <h1 id="info-name">${name}</h1>
+      <div id="info-body">
+        <a target="_blank" href="${dir_url}">
+          <img src="${directionIconUrl}">
+        </a>
+      </div>
+    </div>`;
 
   // closes previous infowindow
   infowindow.close();
