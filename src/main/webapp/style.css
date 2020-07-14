@@ -23,8 +23,6 @@ h1 {
 
   max-height: 100vh;
   overflow: auto;
-
-  pointer-events: none;
 }
 
 /* Always set the map height explicitly to define the size of the div
@@ -168,9 +166,19 @@ h1 {
 }
 
 @media only screen and (max-width: 768px) {
+  #map-container {
+    height: 100%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
   #right-tab {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
+    pointer-events: none;
   }
 
   #result-container {
