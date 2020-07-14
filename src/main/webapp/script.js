@@ -4,6 +4,19 @@ let markers = [];
 const blueIconUrl = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
 const orangeIconUrl = "http://maps.google.com/mapfiles/ms/icons/orange-dot.png";
 
+const configUrl = new URL('/client-config', window.location.origin)
+configUrl.searchParams.append("key", "clientapikey")
+
+fetch(configUrl).then((response => {
+  response.text().then(apikey => {
+    var script = document.createElement('script');
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=' + apikey + '&libraries=places&callback=initMap';
+    script.defer = true;
+
+    document.head.appendChild(script);
+  })
+}))
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 1.2839, lng: 103.8607}, // default location, marina bay

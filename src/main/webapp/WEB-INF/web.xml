@@ -9,6 +9,10 @@
     </user-data-constraint>
   </security-constraint>
   <servlet>
+    <servlet-name>ClientConfigServlet</servlet-name>
+    <servlet-class>servlets.ClientConfigServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>PlacesListServlet</servlet-name>
     <servlet-class>servlets.PlacesListServlet</servlet-class>
   </servlet>
@@ -16,6 +20,10 @@
     <servlet-name>PlacesPhotoServlet</servlet-name>
     <servlet-class>servlets.PlacesPhotoServlet</servlet-class>
   </servlet>
+  <servlet-mapping>
+    <servlet-name>ClientConfigServlet</servlet-name>
+    <url-pattern>/client-config</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>PlacesListServlet</servlet-name>
     <url-pattern>/places-list</url-pattern>

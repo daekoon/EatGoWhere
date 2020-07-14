@@ -27,7 +27,7 @@ public class PlacesListServlet extends HttpServlet {
     @Override
     public void init() {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        InputStream input = classLoader.getResourceAsStream("project.properties");
+        InputStream input = classLoader.getResourceAsStream("server.properties");
 
         try {
             properties.load(input);
@@ -37,7 +37,7 @@ public class PlacesListServlet extends HttpServlet {
         }
 
         this.context = new GeoApiContext.Builder()
-            .apiKey(properties.getProperty("apikey"))
+            .apiKey(properties.getProperty("serverapikey"))
             .build();
     }
 
