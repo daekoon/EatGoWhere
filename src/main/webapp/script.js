@@ -100,6 +100,9 @@ let selectedElement;
 let selectedIndex;
 
 function updateRestaurantList(restaurants) {
+  let resContainerElement = document.getElementById("result-container");
+  resContainerElement.style.display = "block";
+
   let resListElement = document.getElementById("restaurant-list");
   resListElement.innerHTML = '';
 
@@ -109,7 +112,6 @@ function updateRestaurantList(restaurants) {
 
   for(let index in restaurants) {
     const { geometry: {location}, placeId, name, photos, rating } = restaurants[index];
-    const photoReference = photos[0].photoReference;
 
     const resElement = document.createElement('li');
 
@@ -122,7 +124,8 @@ function updateRestaurantList(restaurants) {
     // ratingElement.innerHTML = rating;
     // resElement.appendChild(ratingElement);
 
-    if(photoReference) {
+    if(photos) {
+      const photoReference = photos[0].photoReference;
       const url = new URL('/places-photo', window.location.origin),
         params = {
           photoRef: photoReference
@@ -145,11 +148,11 @@ function updateRestaurantList(restaurants) {
       map.setZoom(18);
 
       updateRestaurantInfo(restaurants[index], markers[index]);
-      selectedElement && selectedElement.classList.remove("selected");
+      selectedElement.classList.remove("selected");
       this.classList.add("selected");
       selectedElement = this;
 
-      selectedIndex && markers[selectedIndex].setIcon(blueIconUrl);
+      markers[selectedIndex].setIcon(blueIconUrl);
       markers[index].setIcon(orangeIconUrl);
       selectedIndex = index;
     });
@@ -163,7 +166,6 @@ function updateRestaurantList(restaurants) {
         url: blueIconUrl
       }
     });
-    markers.push(restaurantMarker);
 
     if(index == 0) {
       selectedIndex = 0;
@@ -174,6 +176,8 @@ function updateRestaurantList(restaurants) {
       map.setZoom(18);
       updateRestaurantInfo(restaurants[index], markers[index]);
     }
+
+    markers.push(restaurantMarker);
   }
 }
 
