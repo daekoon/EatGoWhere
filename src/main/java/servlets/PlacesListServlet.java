@@ -39,9 +39,10 @@ public class PlacesListServlet extends HttpServlet {
             .location(currentLocation)
             .radius(500) // Metres, can change via filter
             .openNow(true)
-            .type(PlaceType.RESTAURANT)
-            .keyword(filter);
+            .type(PlaceType.RESTAURANT);
         
+        if (!filter.isEmpty()) nearbySearch.keyword(filter);
+
         try {
             PlacesSearchResponse nearby = nearbySearch.await(); //Returns top 20 results(One page)
 

@@ -80,11 +80,11 @@ function initMap() {
     }
 
     const url = new URL('/places-list', window.location.origin),
-        params = {
-          lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng(),
-          filter: getDieteryRestrictions()
-        }
+          params = {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng(),
+            filter: getDieteryRestrictions()
+          }
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
     fetch(url).then((response => {
@@ -181,7 +181,7 @@ function getDieteryRestrictions() {
        return filter.value;
      }
    }
-   return null;
+   return '';
 }
 
 const filterButtons = document.getElementsByName("restaurant-filter");
