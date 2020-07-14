@@ -207,3 +207,8 @@ for (let button of filterButtons) {
       }
     });
 }
+
+function clearPACInput() {
+  const elem = document.getElementById('pac-input');
+  elem.value = '';
+}
