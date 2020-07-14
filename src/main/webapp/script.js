@@ -121,12 +121,21 @@ function updateRestaurantList(restaurants) {
     // ratingElement.innerHTML = rating;
     // resElement.appendChild(ratingElement);
 
-    // if(photoReference) {
-    //   const imgElement = document.createElement('img');
-    //   imgElement.src = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=150&photoreference="
-    //       + photoReference + "&key=API_KEY_HERE";
-    //   resElement.appendChild(imgElement);
-    // }
+    if(photoReference) {
+      const url = new URL('/places-photo', window.location.origin),
+        params = {
+          photoRef: photoReference
+        }
+      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
+      const imgElement = document.createElement('img');
+      imgElement.src = url;
+      imgElement.onerror = function() {
+        this.onerror = null;
+        this.src = '';
+      }
+      resElement.appendChild(imgElement);
+    }
 
     resListElement.appendChild(resElement);
 
