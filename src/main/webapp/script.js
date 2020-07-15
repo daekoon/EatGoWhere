@@ -3,7 +3,6 @@ let markers = [];
 
 const blueIconUrl = "https://maps.google.com/mapfiles/ms/icons/blue-dot.png";
 const orangeIconUrl = "https://maps.google.com/mapfiles/ms/icons/orange-dot.png";
-const directionIconUrl = "https://gstatic.com/images/icons/material/system/2x/directions_gm_blue_20dp.png";
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -24,7 +23,7 @@ function initMap() {
       ['address_components', 'geometry', 'icon', 'name']);
 
   let infowindow = new google.maps.InfoWindow();
-  let infowindowContent = document.getElementById('infowindow-content');
+  let infowindowContent = document.getElementById('infowindow-pac-content');
   infowindow.setContent(infowindowContent);
   let marker = new google.maps.Marker({
     map: map,
@@ -216,6 +215,7 @@ for (let button of filterButtons) {
 }
 
 let infowindow;
+
 function updateRestaurantInfo(restaurant, marker) {
   if (!infowindow) {
     infowindow = new google.maps.InfoWindow();
@@ -231,18 +231,12 @@ function updateRestaurantInfo(restaurant, marker) {
   const dir_url = new URL('https://www.google.com/maps/dir/');
   Object.keys(params).forEach(key => dir_url.searchParams.append(key, params[key]));
 
-  let contentString =
-    `<div id="info-container">
-      <div id="info-name">${name}</div>
-      <div id="info-body">
-        <a target="_blank" href="${dir_url}">
-          <img src="${directionIconUrl}">
-        </a>
-      </div>
-    </div>`;
+  infowindowContent = document.getElementById('infowindow-restaurant-content');
+  document.getElementById('info-restaurant-name').textContent = name;
+  document.getElementById('info-restaurant-dir').setAttribute("href", dir_url);
 
   // closes previous infowindow
   infowindow.close();
-  infowindow.setContent(contentString);
+  infowindow.setContent(infowindowContent);
   infowindow.open(map, marker);
 }

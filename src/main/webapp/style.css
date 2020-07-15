@@ -37,15 +37,15 @@ h1 {
   font-weight: 300;
 }
 
-#infowindow-content .title {
+#infowindow-pac-content .title {
   font-weight: bold;
 }
 
-#infowindow-content {
+#infowindow-pac-content {
   display: none;
 }
 
-#map #infowindow-content {
+#map #infowindow-pac-content {
   display: inline;
 }
 
@@ -165,16 +165,16 @@ h1 {
   object-fit: cover;
 }
 
-#info-container {
+#infowindow-restaurant-content {
   display: flex;
   align-items: center;
 }
 
-#info-container * {
+#infowindow-restaurant-content * {
   padding-left: 3px;
 }
 
-#info-name {
+#info-restaurant-name {
   font-size: 1.1rem;
 }
 
