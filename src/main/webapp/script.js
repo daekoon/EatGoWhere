@@ -215,11 +215,13 @@ for (let button of filterButtons) {
 }
 
 let infowindow;
+let infowindowContent;
 
 function updateRestaurantInfo(restaurant, marker) {
   if (!infowindow) {
     infowindow = new google.maps.InfoWindow();
     infowindow.setZIndex(500); // Random high number so it shows on top
+    infowindowContent = document.getElementById('infowindow-restaurant-content');
   }
   let { geometry: {location}, placeId, name, photos, rating } = restaurant;
 
@@ -231,9 +233,8 @@ function updateRestaurantInfo(restaurant, marker) {
   const dir_url = new URL('https://www.google.com/maps/dir/');
   Object.keys(params).forEach(key => dir_url.searchParams.append(key, params[key]));
 
-  infowindowContent = document.getElementById('infowindow-restaurant-content');
-  document.getElementById('info-restaurant-name').textContent = name;
-  document.getElementById('info-restaurant-dir').setAttribute("href", dir_url);
+  infowindowContent.children['info-restaurant-name'].textContent = name;
+  infowindowContent.children['info-restaurant-dir'].setAttribute("href", dir_url);
 
   // closes previous infowindow
   infowindow.close();
