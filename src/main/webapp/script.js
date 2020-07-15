@@ -219,6 +219,7 @@ let infowindow;
 function updateRestaurantInfo(restaurant, marker) {
   if (!infowindow) {
     infowindow = new google.maps.InfoWindow();
+    infowindow.setZIndex(500); // Random high number so it shows on top
   }
   let { geometry: {location}, placeId, name, photos, rating } = restaurant;
 
@@ -232,7 +233,7 @@ function updateRestaurantInfo(restaurant, marker) {
 
   let contentString =
     `<div id="info-container">
-      <h1 id="info-name">${name}</h1>
+      <div id="info-name">${name}</div>
       <div id="info-body">
         <a target="_blank" href="${dir_url}">
           <img src="${directionIconUrl}">

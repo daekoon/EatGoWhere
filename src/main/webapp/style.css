@@ -165,16 +165,17 @@ h1 {
   object-fit: cover;
 }
 
-#info-container * {
-  overflow: auto;
+#info-container {
+  display: flex;
+  align-items: center;
 }
 
-#info-container *{
-  float: left;
+#info-container * {
+  padding-left: 3px;
 }
 
 #info-name {
-  width: calc(100% - 50px);
+  font-size: 1.1rem;
 }
 
 @media only screen and (max-width: 768px) {
