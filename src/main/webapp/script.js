@@ -78,7 +78,7 @@ function initMap() {
       window.alert("Please enter a valid location!");
       return;
     }
-    resizeNavButton();
+    resizeNavButton(keepCollapsed=true);
     const url = new URL('/places-list', window.location.origin),
           params = {
             lat: place.geometry.location.lat(),
@@ -247,10 +247,10 @@ document.getElementById("resize-nav-button").addEventListener("click", function(
 });
 
 
-function resizeNavButton() {
+function resizeNavButton(keepCollapsed=false) {
   let button = document.getElementById("resize-nav-button");
   let topNavBar = document.getElementById("pac-card");
-  if (!topNavBar.style.maxHeight) {
+  if (keepCollapsed || !topNavBar.style.maxHeight) {
     topNavBar.style.maxHeight = "105px";
     button.textContent = "Expand";
   }
