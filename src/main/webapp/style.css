@@ -87,8 +87,7 @@ h1 {
   font-size: 1rem;
   font-weight: 300;
   text-overflow: ellipsis;
-  width: calc(100% - 42px);
-  padding-right: 30px;
+  width: calc(100% - 100px);
 }
 
 #pac-input:focus {
@@ -112,10 +111,9 @@ h1 {
 }
 
 #submit-button {
-  width: 100px;
+  width: 70px;
   margin: 0;
   margin-left: 5px;
-  margin-top: .5rem;
   background-color: #4d90fe;
   border: none;
   border-radius: 5px;
