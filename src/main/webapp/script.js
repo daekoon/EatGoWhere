@@ -1,8 +1,8 @@
 let map;
 let markers = [];
 
-const blueIconUrl = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
-const orangeIconUrl = "http://maps.google.com/mapfiles/ms/icons/orange-dot.png";
+const blueIconUrl = "https://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+const orangeIconUrl = "https://maps.google.com/mapfiles/ms/icons/orange-dot.png";
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -23,7 +23,7 @@ function initMap() {
       ['address_components', 'geometry', 'icon', 'name']);
 
   let infowindow = new google.maps.InfoWindow();
-  let infowindowContent = document.getElementById('infowindow-content');
+  let infowindowContent = document.getElementById('infowindow-pac-content');
   infowindow.setContent(infowindowContent);
   let marker = new google.maps.Marker({
     map: map,
@@ -146,6 +146,7 @@ function updateRestaurantList(restaurants) {
       map.panTo(location);
       map.setZoom(18);
 
+      updateRestaurantInfo(restaurants[index], markers[index]);
       selectedElement.classList.remove("selected");
       this.classList.add("selected");
       selectedElement = this;
@@ -165,6 +166,8 @@ function updateRestaurantList(restaurants) {
       }
     });
 
+    markers.push(restaurantMarker);
+
     if(index == 0) {
       selectedIndex = 0;
       selectedElement = resElement;
@@ -172,9 +175,8 @@ function updateRestaurantList(restaurants) {
       restaurantMarker.setIcon(orangeIconUrl);
       map.panTo(location);
       map.setZoom(18);
+      updateRestaurantInfo(restaurants[index], markers[index]);
     }
-
-    markers.push(restaurantMarker);
   }
 }
 
@@ -210,4 +212,32 @@ for (let button of filterButtons) {
         currentFilter = button;
       }
     });
+}
+
+let infowindow;
+let infowindowContent;
+
+function updateRestaurantInfo(restaurant, marker) {
+  if (!infowindow) {
+    infowindow = new google.maps.InfoWindow();
+    infowindow.setZIndex(500); // Random high number so it shows on top
+    infowindowContent = document.getElementById('infowindow-restaurant-content');
+  }
+  let { geometry: {location}, placeId, name, photos, rating } = restaurant;
+
+  let params = {
+    api: 1,
+    destination: name,
+    destination_place_id: placeId
+  }
+  const dir_url = new URL('https://www.google.com/maps/dir/');
+  Object.keys(params).forEach(key => dir_url.searchParams.append(key, params[key]));
+
+  infowindowContent.children['info-restaurant-name'].textContent = name;
+  infowindowContent.children['info-restaurant-dir'].setAttribute("href", dir_url);
+
+  // closes previous infowindow
+  infowindow.close();
+  infowindow.setContent(infowindowContent);
+  infowindow.open(map, marker);
 }
