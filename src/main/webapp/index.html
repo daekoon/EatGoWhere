@@ -16,7 +16,7 @@
     <script src="script.js" defer></script>
     <!-- Replace the value of the key parameter with your own API key. -->
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=API_KEY_HERE&libraries=places&callback=initMap"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIgm_hnZOv6eU7DWpVc8l6ePk3w1Q525M&libraries=places&callback=initMap"
       defer
     ></script>
   </head>
@@ -39,19 +39,28 @@
     <div id="right-tab">
       <div id="pac-card">
         <h1>EatGoWhere</h1>
+        <a id="resize-nav-button">Expand</a>
         <input id="pac-input" type="text" placeholder="Enter your location" />
         <div id="pac-container">
             <form id="restaurant-filter">
               <fieldset>
                 <legend>Dietery Restrictions</legend>
-                <input type="radio" name="restaurant-filter" id="halal" value="halal">
-                <label for="halal">Halal</label>
-                <input type="radio" name="restaurant-filter" id="vegetarian" value="vegetarian">
-                <label for="vegetarian">Vegetarian</label>
-                <input type="radio" name="restaurant-filter" id="vegan" value="vegan">
-                <label for="vegan">Vegan</label>
-                <input type="radio" name="restaurant-filter" id="gluten-free" value="gluten-free">
-                <label for="gluten-free">Gluten Free</label>
+                <div>
+                  <input type="radio" name="restaurant-filter" id="halal" value="halal">
+                  <label for="halal">Halal</label>
+                </div>
+                <div>
+                  <input type="radio" name="restaurant-filter" id="vegetarian" value="vegetarian">
+                  <label for="vegetarian">Vegetarian</label>
+                </div>
+                <div>
+                  <input type="radio" name="restaurant-filter" id="vegan" value="vegan">
+                  <label for="vegan">Vegan</label>
+                </div>
+                <div>
+                  <input type="radio" name="restaurant-filter" id="gluten-free" value="gluten-free">
+                  <label for="gluten-free">Gluten Free</label>
+                </div>
               </fieldset>
             </form>
 
