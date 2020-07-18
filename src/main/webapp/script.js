@@ -78,7 +78,7 @@ function initMap() {
       window.alert("Please enter a valid location!");
       return;
     }
-
+    resizeNavButton();
     const url = new URL('/places-list', window.location.origin),
           params = {
             lat: place.geometry.location.lat(),
@@ -240,4 +240,22 @@ function updateRestaurantInfo(restaurant, marker) {
   infowindow.close();
   infowindow.setContent(infowindowContent);
   infowindow.open(map, marker);
+}
+
+document.getElementById("resize-nav-button").addEventListener("click", function() {
+  resizeNavButton();
+});
+
+
+function resizeNavButton() {
+  let button = document.getElementById("resize-nav-button");
+  let topNavBar = document.getElementById("pac-card");
+  if (!topNavBar.style.maxHeight) {
+    topNavBar.style.maxHeight = "105px";
+    button.textContent = "Expand";
+  }
+  else {
+    topNavBar.style.maxHeight = null;
+    button.textContent = "Collapse";
+  }
 }

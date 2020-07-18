@@ -51,6 +51,7 @@ h1 {
 
 #pac-card {
   margin: 10px;
+  max-height: 300px;
   padding: 20px;
   border-radius: 8px;
   box-sizing: border-box;
@@ -59,6 +60,11 @@ h1 {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   background-color: #fff;
   pointer-events: all;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 #pac-input {
@@ -75,7 +81,8 @@ h1 {
 
 #pac-container {
   display: flex;
-  margin-top: 5px;
+  width: 100%;
+  margin-top: 10px;
 }
 
 #restaurant-filter {
@@ -93,7 +100,6 @@ h1 {
   margin: 0;
   margin-left: 5px;
   margin-top: .5rem;
-
   background-color: #4d90fe;
   border: none;
   border-radius: 5px;
