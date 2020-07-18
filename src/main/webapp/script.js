@@ -254,7 +254,6 @@ document.getElementById("resize-nav-button").addEventListener("click", function(
   resizeNavButton();
 });
 
-
 function resizeNavButton() {
   let button = document.getElementById("resize-nav-button");
   let topNavBar = document.getElementById("pac-card");
