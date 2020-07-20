@@ -10,6 +10,7 @@
       name="keywords"
       content="restaurant, food, hungry, where, eat, random, help, lunch, dinner, indecisive"
     />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EatGoWhere</title>
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
@@ -24,10 +25,16 @@
   <body>
     <div id="map-container">
       <div id="map"></div>
-      <div id="infowindow-content">
+      <div id="infowindow-pac-content">
         <img src="" width="16" height="16" id="place-icon" />
         <span id="place-name" class="title"></span><br />
         <span id="place-address"></span>
+      </div>
+      <div id="infowindow-restaurant-content">
+        <div id="info-restaurant-name">${name}</div>
+        <a target="_blank" id="info-restaurant-dir">
+          <img src="https://gstatic.com/images/icons/material/system/2x/directions_gm_blue_20dp.png">
+        </a>
       </div>
     </div>
     <div id="right-tab">
@@ -56,6 +63,7 @@
       </div>
 
       <div id="result-container">
+        <h2>Recommended Restaurants</h2>
         <ul id="restaurant-list"></ul>
         <div id='result-share-container'></div>
       </div>

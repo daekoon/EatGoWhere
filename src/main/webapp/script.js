@@ -1,8 +1,8 @@
 let map;
 let markers = [];
 
-const blueIconUrl = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
-const orangeIconUrl = "http://maps.google.com/mapfiles/ms/icons/orange-dot.png";
+const blueIconUrl = "https://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+const orangeIconUrl = "https://maps.google.com/mapfiles/ms/icons/orange-dot.png";
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -23,7 +23,7 @@ function initMap() {
       ['address_components', 'geometry', 'icon', 'name']);
 
   let infowindow = new google.maps.InfoWindow();
-  let infowindowContent = document.getElementById('infowindow-content');
+  let infowindowContent = document.getElementById('infowindow-pac-content');
   infowindow.setContent(infowindowContent);
   let marker = new google.maps.Marker({
     map: map,
@@ -99,6 +99,9 @@ let selectedElement;
 let selectedIndex;
 
 function updateRestaurantList(restaurants) {
+  let resContainerElement = document.getElementById("result-container");
+  resContainerElement.style.display = "block";
+
   let resListElement = document.getElementById("restaurant-list");
   resListElement.innerHTML = '';
 
@@ -132,7 +135,6 @@ function updateRestaurantList(restaurants) {
 
   for(let index in restaurants) {
     const { geometry: {location}, placeId, name, photos, rating } = restaurants[index];
-    
 
     const resElement = document.createElement('li');
 
@@ -168,11 +170,12 @@ function updateRestaurantList(restaurants) {
       map.panTo(location);
       map.setZoom(18);
 
-      selectedElement && selectedElement.classList.remove("selected");
+      updateRestaurantInfo(restaurants[index], markers[index]);
+      selectedElement.classList.remove("selected");
       this.classList.add("selected");
       selectedElement = this;
 
-      selectedIndex && markers[selectedIndex].setIcon(blueIconUrl);
+      markers[selectedIndex].setIcon(blueIconUrl);
       markers[index].setIcon(orangeIconUrl);
       selectedIndex = index;
 
@@ -189,6 +192,7 @@ function updateRestaurantList(restaurants) {
         url: blueIconUrl
       }
     });
+
     markers.push(restaurantMarker);
 
     if(index == 0) {
@@ -200,6 +204,7 @@ function updateRestaurantList(restaurants) {
       map.setZoom(18);
       shareWhatsappElem.href = `https://wa.me/?text=Let's%20eat%20at%20${encodeURI(name)}!`;
       shareTelegramElem.href = `https://t.me/share/url?url=Insert%20URL%20here&text=Let's%20eat%20at%20${encodeURI(name)}!`
+      updateRestaurantInfo(restaurants[index], markers[index]);
     }
   }
 }
@@ -238,7 +243,30 @@ for (let button of filterButtons) {
     });
 }
 
-function clearPACInput() {
-  const pacClearElem = document.getElementById('pac-input');
-  pacClearElem.value = '';
+let infowindow;
+let infowindowContent;
+
+function updateRestaurantInfo(restaurant, marker) {
+  if (!infowindow) {
+    infowindow = new google.maps.InfoWindow();
+    infowindow.setZIndex(500); // Random high number so it shows on top
+    infowindowContent = document.getElementById('infowindow-restaurant-content');
+  }
+  let { geometry: {location}, placeId, name, photos, rating } = restaurant;
+
+  let params = {
+    api: 1,
+    destination: name,
+    destination_place_id: placeId
+  }
+  const dir_url = new URL('https://www.google.com/maps/dir/');
+  Object.keys(params).forEach(key => dir_url.searchParams.append(key, params[key]));
+
+  infowindowContent.children['info-restaurant-name'].textContent = name;
+  infowindowContent.children['info-restaurant-dir'].setAttribute("href", dir_url);
+
+  // closes previous infowindow
+  infowindow.close();
+  infowindow.setContent(infowindowContent);
+  infowindow.open(map, marker);
 }
