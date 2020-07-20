@@ -109,30 +109,6 @@ function updateRestaurantList(restaurants) {
     resListElement.innerHTML = "No restaurant found.";
   }
 
-  if (!document.getElementById('whatsapp-share')) {
-    shareWhatsappElem = document.createElement('a');
-    shareWhatsappIcon = document.createElement('span');
-    shareWhatsappIcon.className = 'iconify';
-    shareWhatsappIcon.setAttribute('data-icon', 'fa-whatsapp');
-    shareWhatsappIcon.setAttribute('data-inline', 'false');
-    shareWhatsappElem.appendChild(shareWhatsappIcon);
-    shareWhatsappElem.id = 'whatsapp-share';
-    document.getElementById('result-share-container').appendChild(shareWhatsappElem);
-
-    shareTelegramElem = document.createElement('a');
-    shareTelegramIcon = document.createElement('span');
-    shareTelegramIcon.className = 'iconify';
-    shareTelegramIcon.setAttribute('data-icon', 'ei-sc-telegram');
-    shareTelegramIcon.setAttribute('data-inline', 'false');
-    shareTelegramElem.appendChild(shareTelegramIcon);
-    shareTelegramElem.id = 'telegram-share';
-    document.getElementById('result-share-container').appendChild(shareTelegramElem);
-  }
-  else {
-    shareWhatsappElem = document.getElementById('whatsapp-share');
-    shareTelegramElem = document.getElementById('telegram-share');
-  }
-
   for(let index in restaurants) {
     const { geometry: {location}, placeId, name, photos, rating } = restaurants[index];
 
@@ -178,9 +154,6 @@ function updateRestaurantList(restaurants) {
       markers[selectedIndex].setIcon(blueIconUrl);
       markers[index].setIcon(orangeIconUrl);
       selectedIndex = index;
-
-      shareWhatsappElem.href = `https://wa.me/?text=Let's%20eat%20at%20${encodeURI(name)}!`;
-      shareTelegramElem.href = `https://t.me/share/url?url=Insert%20URL%20here&text=Let's%20eat%20at%20${encodeURI(name)}!` //https://t.me/share/url?url={url}&text={text}
     });
 
     let restaurantMarker = new google.maps.Marker({
@@ -202,8 +175,6 @@ function updateRestaurantList(restaurants) {
       restaurantMarker.setIcon(orangeIconUrl);
       map.panTo(location);
       map.setZoom(18);
-      shareWhatsappElem.href = `https://wa.me/?text=Let's%20eat%20at%20${encodeURI(name)}!`;
-      shareTelegramElem.href = `https://t.me/share/url?url=Insert%20URL%20here&text=Let's%20eat%20at%20${encodeURI(name)}!`
       updateRestaurantInfo(restaurants[index], markers[index]);
     }
   }
@@ -265,8 +236,16 @@ function updateRestaurantInfo(restaurant, marker) {
   infowindowContent.children['info-restaurant-name'].textContent = name;
   infowindowContent.children['info-restaurant-dir'].setAttribute("href", dir_url);
 
+  infowindowContent.children['whatsapp-share'].href = `https://wa.me/?text=${encodeURIComponent(dir_url)}%0ALet's%20eat%20at%20${encodeURI(name)}!`;
+  infowindowContent.children['telegram-share'].href = `https://t.me/share/url?url=${encodeURIComponent(dir_url)}&text=Let's%20eat%20at%20${encodeURI(name)}!`;
+
   // closes previous infowindow
   infowindow.close();
   infowindow.setContent(infowindowContent);
   infowindow.open(map, marker);
 }
+
+function clearPACInput() {
+  const pacClearElem = document.getElementById('pac-input');
+  pacClearElem.value = '';
+} 
