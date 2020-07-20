@@ -30,6 +30,8 @@ function initMap() {
     anchorPoint: new google.maps.Point(0, -29)
   });
 
+  getLocation();
+
   // If user selects one of the locations in the autocomplete UI
   autocomplete.addListener('place_changed', function() {
     infowindow.close();
@@ -75,16 +77,28 @@ function initMap() {
       // User clicked submit without choosing a field from autocomplete
       // or entered the name of a Place that was not suggested and
       // pressed the Enter key, or the Place Details request failed.
-      window.alert("Please enter a valid location!");
-      return;
+      if (!userMarker) {
+        // User disabled location and didn't choose a place
+        window.alert("Please enter a valid location!");
+        return;
+      } else {
+        var originLat = userMarker.position.lat(),
+          originLng =  userMarker.position.lng();
+      }
+    } else {
+      var originLat = place.geometry.location.lat(),
+          originLng =  place.geometry.location.lng();
     }
+
     resizeNavButton(keepCollapsed=true);
+
     const url = new URL('/places-list', window.location.origin),
           params = {
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng(),
+            lat: originLat,
+            lng: originLng,
             filter: getDieteryRestrictions()
           }
+
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
     fetch(url).then((response => {
@@ -265,4 +279,32 @@ function resizeNavButton(keepCollapsed=false) {
     topNavBar.style.maxHeight = null;
     button.textContent = "Collapse";
   }
+}
+
+function getLocation() {
+  url = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDQOaxpasHdNc5bF4dTDNureWyCxwQ-Lzc"
+  fetch(url, {method: 'POST'}).then(response => response.json()).then(
+    result => updateLocation(result)
+  );
+}
+
+let userMarker;
+let userInfowindow;
+
+function updateLocation(result) {
+  if (!userInfowindow) {
+    userInfowindow = new google.maps.InfoWindow();
+  }
+  userMarker = new google.maps.Marker({
+    map: map,
+    anchorPoint: new google.maps.Point(0, -29),
+    position: result.location,
+    title: 'user-location',
+    icon: {
+      url: orangeIconUrl
+    }
+  });
+  userInfowindow.setContent("Your Location");
+  userInfowindow.open(map, userMarker);
+  map.panTo(result.location);
 }
