@@ -98,7 +98,19 @@ function initMap() {
 let selectedElement;
 let selectedIndex;
 
+function shuffleFirstRestaurant(restaurants) {
+  if(restaurants.length === 0) {
+    return restaurants;
+  }
+  const randomIndex = Math.floor(Math.random() * restaurants.length);
+  // Swap with first restaurant on list.
+  let temp = restaurants[0];
+  restaurants[0] = restaurants[randomIndex];
+  restaurants[randomIndex] = temp;
+}
+
 function updateRestaurantList(restaurants) {
+  shuffleFirstRestaurant(restaurants);
   let resContainerElement = document.getElementById("result-container");
   resContainerElement.style.display = "block";
 
