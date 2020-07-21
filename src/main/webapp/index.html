@@ -19,6 +19,7 @@
       src="https://maps.googleapis.com/maps/api/js?key=API_KEY_HERE&libraries=places&callback=initMap"
       defer
     ></script>
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
   </head>
 
   <body>
@@ -34,11 +35,18 @@
         <a target="_blank" id="info-restaurant-dir">
           <img src="https://gstatic.com/images/icons/material/system/2x/directions_gm_blue_20dp.png">
         </a>
+        <a id="whatsapp-share">
+          <span class="iconify" data-icon="logos:whatsapp" data-inline="false"></span>
+        </a>
+        <a id="telegram-share">
+          <span class="iconify" data-icon="logos:telegram" data-inline="false"></span>
+        </a>
       </div>
     </div>
     <div id="right-tab">
       <div id="pac-card">
         <h1>EatGoWhere</h1>
+        <span id="pac-clear" onClick='clearPACInput()'>&times;</span>
         <input id="pac-input" type="text" placeholder="Enter your location" />
         <div id="pac-container">
             <form id="restaurant-filter">
@@ -63,6 +71,7 @@
       <div id="result-container">
         <h2>Recommended Restaurants</h2>
         <ul id="restaurant-list"></ul>
+        <div id='result-share-container'></div>
       </div>
 
     </div>

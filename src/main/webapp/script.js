@@ -236,8 +236,16 @@ function updateRestaurantInfo(restaurant, marker) {
   infowindowContent.children['info-restaurant-name'].textContent = name;
   infowindowContent.children['info-restaurant-dir'].setAttribute("href", dir_url);
 
+  infowindowContent.children['whatsapp-share'].href = `https://wa.me/?text=${encodeURIComponent(dir_url)}%0ALet's%20eat%20at%20${encodeURI(name)}!`;
+  infowindowContent.children['telegram-share'].href = `https://t.me/share/url?url=${encodeURIComponent(dir_url)}&text=Let's%20eat%20at%20${encodeURI(name)}!`;
+
   // closes previous infowindow
   infowindow.close();
   infowindow.setContent(infowindowContent);
   infowindow.open(map, marker);
 }
+
+function clearPACInput() {
+  const pacClearElem = document.getElementById('pac-input');
+  pacClearElem.value = '';
+} 

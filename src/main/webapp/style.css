@@ -61,12 +61,28 @@ h1 {
   pointer-events: all;
 }
 
+#pac-clear {
+  position: absolute;
+  right: 0;
+  padding-right: 40px;
+  font-weight: 100;
+  font-size: 30px;
+}
+
+#pac-clear:hover,
+#pac-clear:focus {
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 #pac-input {
   padding: .5rem;
   font-size: 1rem;
   font-weight: 300;
   text-overflow: ellipsis;
-  width: calc(100% - 20px);
+  width: calc(100% - 42px);
+  padding-right: 30px;
 }
 
 #pac-input:focus {
@@ -165,6 +181,10 @@ h1 {
   object-fit: cover;
 }
 
+#result-share-container {
+  display: flex;
+}
+
 #infowindow-restaurant-content {
   display: flex;
   align-items: center;
@@ -203,4 +223,9 @@ h1 {
     left: 0;
     overflow: auto;
   }
+}
+
+.iconify {
+  width: 40px;
+  height: 40px;
 }
