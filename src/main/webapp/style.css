@@ -64,7 +64,7 @@ h1 {
 #pac-clear {
   position: absolute;
   right: 0;
-  padding-right: 30px;
+  padding-right: 40px;
   font-weight: 100;
   font-size: 30px;
 }
@@ -81,7 +81,8 @@ h1 {
   font-size: 1rem;
   font-weight: 300;
   text-overflow: ellipsis;
-  width: calc(100% - 20px);
+  width: calc(100% - 42px);
+  padding-right: 30px;
 }
 
 #pac-input:focus {
