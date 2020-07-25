@@ -136,54 +136,74 @@ h1 {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   background-color: #fff;
   pointer-events: all;
-}
 
-#result-container h2 {
-  margin: .2rem 0;
-  font-size: 1.2rem;
-}
-
-#restaurant-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#restaurant-list li {
-  padding: 15px;
-  background-color: #E3F2FD;
-  margin: 10px 0;
-  border-radius: 8px;
-  cursor: pointer;
-
-  display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
 }
 
-#restaurant-list li:hover {
-  background-color: #BBDEFB;
+#restaurant-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
-#restaurant-list .selected {
-  background: #FFCC80;
+#restaurant-details h2 {
+  margin: .2rem 0;
+  font-size: 1rem;
 }
 
-#restaurant-list .selected:hover {
-  background: #FFB74D;
+#restaurant-details h3 {
+  margin: .5rem 0;
+  font-size: 1.2rem;
+  text-align: center;
 }
 
-#restaurant-list h3 {
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin: 0;
-  padding: 0;
-}
-
-#restaurant-list img {
-  height: 80px;
-  width: 80px;
+#restaurant-details img {
+  max-height: 150px;
+  max-width: 250px;
   object-fit: cover;
+  margin: .5rem 0;
+}
+
+#restaurant-links {
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#restaurant-links a {
+  margin: 0 10px;
+}
+
+#restaurant-links a svg {
+  height: 30px;
+  width: 30px;
+}
+
+#restaurant-links a img {
+  height: 30px;
+  width: 30px;
+}
+
+#restaurant-buttons {
+  width: 100%;
+  display: flex;
+}
+
+#restaurant-buttons button {
+  font-size: 1rem;
+  width: 50%;
+  margin: 5px;
+  padding: 5px;
+  border: none;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+#result-hide-button {
+  display: none;
 }
 
 #result-share-container {
@@ -220,13 +240,34 @@ h1 {
   }
 
   #result-container {
-    max-height: 30vh;
+    max-height: 50vh;
     margin: 10px;
+    padding: 10px;
     width: calc(100% - 20px);
     position: absolute;
     bottom: 0;
     left: 0;
+    transition: max-height 0.3s ease-in-out;
     overflow: auto;
+  }
+
+  #result-container.result-hidden {
+    max-height: 40px;
+    overflow: hidden;
+  }
+
+  #result-hide-button {
+    display: block;
+    height: 20px;
+    margin-bottom: 10px;
+
+    border: none;
+    background: none;
+  }
+
+  #result-hide-button svg {
+    height: 25px;
+    color: slategray;
   }
 }
 

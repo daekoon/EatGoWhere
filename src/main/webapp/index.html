@@ -32,15 +32,6 @@
       </div>
       <div id="infowindow-restaurant-content">
         <div id="info-restaurant-name">${name}</div>
-        <a target="_blank" id="info-restaurant-dir">
-          <img src="https://gstatic.com/images/icons/material/system/2x/directions_gm_blue_20dp.png">
-        </a>
-        <a id="whatsapp-share">
-          <span class="iconify" data-icon="logos:whatsapp" data-inline="false"></span>
-        </a>
-        <a id="telegram-share">
-          <span class="iconify" data-icon="logos:telegram" data-inline="false"></span>
-        </a>
       </div>
     </div>
     <div id="right-tab">
@@ -78,9 +69,36 @@
       </div>
 
       <div id="result-container">
-        <h2>Recommended Restaurants</h2>
-        <ul id="restaurant-list"></ul>
-        <div id='result-share-container'></div>
+        <button id="result-hide-button">
+          <span class="iconify" data-icon="dashicons:arrow-down-alt2" data-inline="false"></span>
+        </button>
+
+        <p id="no-result-text">No restaurants found.</p>
+
+        <div id="restaurant-details">
+          <h2>Recommended Restaurant</h2>
+          <img id="restaurant-image"/>
+          <h3 id="restaurant-name">Name</h3>
+          <div id="restaurant-rating"></div>
+
+          <div id="restaurant-links">
+            <a target="_blank" id="restaurant-dir">
+              <img src="https://gstatic.com/images/icons/material/system/2x/directions_gm_blue_20dp.png">
+            </a>
+            <a id="restaurant-whatsapp-share">
+              <span class="iconify" data-icon="logos:whatsapp" data-inline="false"></span>
+            </a>
+            <a id="restaurant-telegram-share">
+              <span class="iconify" data-icon="logos:telegram" data-inline="false"></span>
+            </a>
+          </div>
+
+          <div id="restaurant-buttons">
+            <button id="previous-button"><</button>
+            <button id="next-button">></button>
+          </div>
+        </div>
+
       </div>
 
     </div>
