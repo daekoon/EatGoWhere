@@ -99,6 +99,7 @@ function updateRestaurant(result) {
   let resContainerElement = document.getElementById("result-container");
   resContainerElement.style.display = "flex";
 
+  shuffleArray(result);
   restaurants = result;
 
   if(result.length === 0) {
@@ -122,6 +123,14 @@ function updateRestaurant(result) {
     } else {
       document.getElementById("restaurant-buttons").style.display = "flex";
     }
+  }
+}
+
+// Randomize array in-place using Durstenfeld shuffle algorith
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
 }
 
