@@ -115,6 +115,13 @@ function updateRestaurant(result) {
       resultHidden = false;
       setRestaurantTab(resultHidden);
     }
+
+    // Hide next and previous buttons if only one restaurant
+    if(result.length === 1) {
+      document.getElementById("restaurant-buttons").style.display = "none";
+    } else {
+      document.getElementById("restaurant-buttons").style.display = "flex";
+    }
   }
 }
 
@@ -126,7 +133,7 @@ function updateRestaurantDetails(index) {
   nameElement.innerHTML = name;
 
   const ratingElement = document.getElementById("restaurant-rating");
-  ratingElement.innerHTML = "Rating: " + rating;
+  ratingElement.innerHTML = "Rating: " + rating + "  (" + userRatingsTotal + ")";
 
   if(photos) {
     const photoReference = photos[0].photoReference;
@@ -163,8 +170,8 @@ function updateRestaurantDetails(index) {
   whatsappElement.href = `https://wa.me/?text=${encodeURIComponent(dirUrl)}%0ALet's%20eat%20at%20${encodeURI(name)}!`;
   telegramElement.href = `https://t.me/share/url?url=${encodeURIComponent(dirUrl)}&text=Let's%20eat%20at%20${encodeURI(name)}!`;
 
-  restaurantMarker && restaurantMarker.setMap(null);
 
+  restaurantMarker && restaurantMarker.setMap(null);
   restaurantMarker = new google.maps.Marker({
     map: map,
     anchorPoint: new google.maps.Point(0, -29),
@@ -180,15 +187,10 @@ function updateRestaurantDetails(index) {
 function nextRestaurant() {
   restaurantIndex = (restaurantIndex + 1) % restaurants.length;
   updateRestaurantDetails(restaurantIndex);
-  console.log(restaurantIndex);
 }
 
 function prevRestaurant() {
-  if(restaurantIndex === 0) {
-    restaurantIndex = restaurants.length - 1;
-  } else {
-    restaurantIndex = restaurantIndex - 1;
-  }
+  restaurantIndex = (restaurantIndex === 0) ? restaurants.length - 1 : restaurantIndex - 1;
   updateRestaurantDetails(restaurantIndex);
 }
 

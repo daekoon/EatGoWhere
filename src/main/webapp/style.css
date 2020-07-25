@@ -19,7 +19,7 @@ h1 {
   position: absolute;
   top: 0;
   right: 0;
-  width: 30vw;
+  width: 25vw;
 
   max-height: 100vh;
   overflow: auto;
@@ -157,24 +157,32 @@ h1 {
   margin: .5rem 0;
   font-size: 1.2rem;
   text-align: center;
+  display: inline;
 }
 
-#restaurant-details img {
-  max-height: 150px;
-  max-width: 250px;
+#restaurant-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#restaurant-image{
+  max-height: 200px;
+  min-height: 100px;
+  max-width: calc(25vw - 20px);
   object-fit: cover;
   margin: .5rem 0;
 }
 
 #restaurant-links {
-  margin: 5px 0;
+  margin: 10px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 #restaurant-links a {
-  margin: 0 10px;
+  margin-left: 10px;
 }
 
 #restaurant-links a svg {
@@ -182,9 +190,10 @@ h1 {
   width: 30px;
 }
 
-#restaurant-links a img {
+#restaurant-title a img {
   height: 30px;
   width: 30px;
+  margin: 0 10px;
 }
 
 #restaurant-buttons {
@@ -200,6 +209,11 @@ h1 {
   border: none;
   border-radius: 3px;
   text-decoration: none;
+  cursor: pointer;
+}
+
+#restaurant-buttons button:hover {
+  background: #4d90fe;
 }
 
 #result-hide-button {
@@ -268,6 +282,13 @@ h1 {
   #result-hide-button svg {
     height: 25px;
     color: slategray;
+  }
+
+  #restaurant-image {
+    max-height: 150px;
+    max-width: 250px;
+    object-fit: cover;
+    margin: .5rem 0;
   }
 }
 
