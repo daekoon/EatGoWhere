@@ -1,6 +1,8 @@
 package servlets;
 
+import java.io.InputStream;
 import java.io.IOException;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,11 +22,22 @@ import com.google.maps.GeoApiContext;
 @WebServlet("/places-list")
 public class PlacesListServlet extends HttpServlet {
     GeoApiContext context;
+    Properties properties = new Properties();
 
     @Override
     public void init() {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        InputStream input = classLoader.getResourceAsStream("server.properties");
+
+        try {
+            properties.load(input);
+        }
+        catch (IOException e) {
+            System.out.printf("Error while trying to read config file: %s\n", e.toString());
+        }
+
         this.context = new GeoApiContext.Builder()
-            .apiKey("API_KEY_HERE")
+            .apiKey(properties.getProperty("serverapikey"))
             .build();
     }
 
