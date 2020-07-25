@@ -92,6 +92,8 @@ function initMap() {
         updateRestaurantList(data.results);
       })
     }))
+
+    gtag('event', 'search', {'search_term': autocomplete.getPlace().name});
   });
 }
 
