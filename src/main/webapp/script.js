@@ -142,7 +142,7 @@ function updateRestaurantDetails(index) {
   nameElement.innerHTML = name;
 
   const ratingElement = document.getElementById("restaurant-rating");
-  ratingElement.innerHTML = "Rating: " + rating + "  (" + userRatingsTotal + ")";
+  ratingElement.innerHTML = "Rating: " + rating + "/5  (" + userRatingsTotal + ")";
 
   if(photos) {
     const photoReference = photos[0].photoReference;
