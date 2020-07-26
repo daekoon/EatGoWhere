@@ -114,7 +114,9 @@ let selectedIndex;
 
 function updateRestaurantList(restaurants) {
   let resContainerElement = document.getElementById("result-container");
-  resContainerElement.style.display = "block";
+
+  resContainerElement.classList.remove("hide");
+  document.getElementById("infowindow-restaurant-content").classList.remove("hide");
 
   let resListElement = document.getElementById("restaurant-list");
   resListElement.innerHTML = '';
@@ -269,15 +271,18 @@ document.getElementById("resize-nav-button").addEventListener("click", function(
 });
 
 function resizeNavButton(keepCollapsed=false) {
-  let button = document.getElementById("resize-nav-button");
+  const expandButton = document.getElementById("expand-top-button");
+  const collapseButton = document.getElementById("collapse-top-button");
   let topNavBar = document.getElementById("pac-card");
   if (keepCollapsed || !topNavBar.style.maxHeight) {
     topNavBar.style.maxHeight = "105px";
-    button.textContent = "Expand";
+    expandButton.classList.replace("hide", "show");
+    collapseButton.classList.replace("show", "hide");
   }
   else {
     topNavBar.style.maxHeight = null;
-    button.textContent = "Collapse";
+    expandButton.classList.replace("show", "hide");
+    collapseButton.classList.replace("hide", "show");
   }
 }
 
