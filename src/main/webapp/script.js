@@ -317,18 +317,14 @@ function updateLocation(result) {
 }
 
 document.getElementById("price-filter").addEventListener("input",function() {
-  console.log('changed');
   let price = this.value;
-  console.log(price);
 
+  // set icons 1 ~ price to active, rest to inactive
   for (i=1; i<=price; i++) {
     let priceLevel = document.getElementById("price-filter-" + i);
     priceLevel.classList = "price-filter-active"
   }
-  console.log("hello")
-  console.log(price + 1)
   for (i=++price; i<=4; i++) {
-    console.log('inside');
     let priceLevel = document.getElementById("price-filter-" + i);
     priceLevel.classList = "price-filter-inactive"
   }
