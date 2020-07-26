@@ -322,10 +322,12 @@ document.getElementById("price-filter").addEventListener("input",function() {
   // set icons 1 ~ price to active, rest to inactive
   for (i=1; i<=price; i++) {
     let priceLevel = document.getElementById("price-filter-" + i);
-    priceLevel.classList = "price-filter-active"
+    priceLevel.classList.remove("price-filter-inactive");
+    priceLevel.classList.add("price-filter-active");
   }
   for (i=++price; i<=4; i++) {
     let priceLevel = document.getElementById("price-filter-" + i);
-    priceLevel.classList = "price-filter-inactive"
+    priceLevel.classList.remove("price-filter-active");
+    priceLevel.classList.add("price-filter-inactive");
   }
 });
