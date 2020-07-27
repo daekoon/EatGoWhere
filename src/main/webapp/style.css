@@ -10,6 +10,10 @@ h1 {
   font-size: 1.6rem;
 }
 
+*:focus{
+  outline: none;
+}
+
 #map-container {
   width: 100vw;
   height: 100vh;
@@ -241,6 +245,8 @@ h1 {
 
 #resize-nav-button {
   position: relative;
-  top: -15px;
+  top: -12px;
   right: -10px;
+  border: 0px;
+  background: transparent;
 }
