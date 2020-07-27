@@ -116,7 +116,9 @@ function updateRestaurantList(restaurants) {
   let resContainerElement = document.getElementById("result-container");
 
   resContainerElement.classList.remove("hide");
-  document.getElementById("infowindow-restaurant-content").classList.remove("hide");
+  if(document.getElementById("infowindow-restaurant-content")){
+    document.getElementById("infowindow-restaurant-content").classList.remove("hide");
+  }
 
   let resListElement = document.getElementById("restaurant-list");
   resListElement.innerHTML = '';
