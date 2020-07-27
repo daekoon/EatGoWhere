@@ -49,6 +49,7 @@ public class PlacesListServlet extends HttpServlet {
         LatLng currentLocation = new LatLng(lat, lng);
         PriceLevel maxPrice = getPriceLevel(request.getParameter("price"));
         String filter = request.getParameter("filter");
+        Integer distance = Integer.parseInt(request.getParemeter("dist"))
 
         NearbySearchRequest nearbySearch = new NearbySearchRequest(this.context)
             .location(currentLocation)
