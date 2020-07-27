@@ -250,3 +250,32 @@ h1 {
   border: 0px;
   background: transparent;
 }
+
+#price-filter-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  font-size: 1em;
+}
+
+#price-filter {
+  width: 70%;
+}
+
+#price-filter-max {
+  display: flex;
+  align-items: center;
+}
+
+.price-filter-active {
+  background-color: transparent;
+  color: darkgreen;
+  font-size: 1.3em;
+}
+
+.price-filter-inactive {
+  background-color: transparent;
+  color: darkgray;
+  font-size: 1.1em;
+}
