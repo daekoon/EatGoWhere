@@ -96,7 +96,8 @@ function initMap() {
           params = {
             lat: originLat,
             lng: originLng,
-            filter: getDieteryRestrictions()
+            filter: getDieteryRestrictions(),
+            price: getPriceFilter()
           }
 
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
@@ -213,6 +214,11 @@ function getDieteryRestrictions() {
    return '';
 }
 
+function getPriceFilter() {
+   const priceSlider = document.getElementById("price-filter");
+   return priceSlider.value
+}
+
 const filterButtons = document.getElementsByName("restaurant-filter");
 let currentFilter;
 
@@ -309,3 +315,19 @@ function updateLocation(result) {
   map.panTo(result.location);
   map.setZoom(17);
 }
+
+document.getElementById("price-filter").addEventListener("input",function() {
+  let price = this.value;
+
+  // set icons 1 ~ price to active, rest to inactive
+  for (i=1; i<=price; i++) {
+    let priceLevel = document.getElementById("price-filter-" + i);
+    priceLevel.classList.remove("price-filter-inactive");
+    priceLevel.classList.add("price-filter-active");
+  }
+  for (i=++price; i<=4; i++) {
+    let priceLevel = document.getElementById("price-filter-" + i);
+    priceLevel.classList.remove("price-filter-active");
+    priceLevel.classList.add("price-filter-inactive");
+  }
+});
