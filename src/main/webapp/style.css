@@ -174,7 +174,7 @@ h1 {
 #restaurant-image{
   max-height: 200px;
   min-height: 100px;
-  max-width: calc(25vw - 20px);
+  max-width: calc(25vw - 60px);
   object-fit: cover;
   margin: .5rem 0;
 }
