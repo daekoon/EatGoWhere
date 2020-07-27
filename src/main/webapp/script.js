@@ -310,4 +310,6 @@ function updateLocation(result) {
   userInfowindow.open(map, userMarker);
   map.panTo(result.location);
   map.setZoom(17);
+  
+  gtag('event', 'gps');
 }
