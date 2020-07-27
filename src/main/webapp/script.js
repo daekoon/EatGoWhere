@@ -141,8 +141,9 @@ function updateRestaurantDetails(index) {
   const nameElement = document.getElementById("restaurant-name");
   nameElement.innerHTML = name;
 
-  const ratingElement = document.getElementById("restaurant-rating");
-  ratingElement.innerHTML = "Rating: " + rating + "/5  (" + userRatingsTotal + ")";
+  document.getElementById("rating-number").innerHTML = rating;
+  document.getElementById("rating-users-number").innerHTML = "(" + userRatingsTotal + ")";
+  updateRating(rating);
 
   if(photos) {
     const photoReference = photos[0].photoReference;
@@ -227,6 +228,36 @@ document.getElementById("result-hide-button").addEventListener("click", function
   resultHidden = !resultHidden;
   setRestaurantTab(resultHidden);
 });
+
+function updateRating(rating) {
+  let full_stars = Math.floor(rating);
+  let half = (rating % 1) >= 0.5;
+  let empty_stars = 5 - full_stars - half;
+
+  for (let i=1; i<=full_stars; i++) {
+    document.getElementById("rating-" + i).classList.remove("rating-inactive");
+    document.getElementById("rating-" + i).classList.add("rating-active");
+  }
+  for (let i=++full_stars; i<=5 ; i++) {
+    document.getElementById("rating-" + i).classList.remove("rating-active");
+    document.getElementById("rating-" + i).classList.add("rating-inactive");
+  }
+  if (half) {
+    document.getElementById("rating-half").classList.remove("rating-inactive");
+    document.getElementById("rating-half").classList.add("rating-active");
+  } else {
+    document.getElementById("rating-half").classList.remove("rating-active");
+    document.getElementById("rating-half").classList.add("rating-inactive");
+  }
+  for (let i=1; i<=empty_stars; i++) {
+    document.getElementById("empty-rating-" + i).classList.remove("rating-inactive");
+    document.getElementById("empty-rating-" + i).classList.add("rating-active");
+  }
+  for (let i=++empty_stars; i<=5 ; i++) {
+    document.getElementById("empty-rating-" + i).classList.remove("rating-active");
+    document.getElementById("empty-rating-" + i).classList.add("rating-inactive");
+  }
+}
 
 function getDieteryRestrictions() {
    const filterForm = document.getElementsByName('restaurant-filter');

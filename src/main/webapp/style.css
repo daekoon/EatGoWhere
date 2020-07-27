@@ -101,6 +101,11 @@ h1 {
   margin-top: 10px;
 }
 
+.iconify {
+  width: 40px;
+  height: 40px;
+}
+
 #restaurant-filter {
   padding: 0;
   width: 100%;
@@ -194,6 +199,32 @@ h1 {
   height: 30px;
   width: 30px;
   margin: 0 10px;
+}
+
+#rating-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#rating-users-number, #rating-number {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.rating-inactive {
+  display: none;
+  width: 1rem;
+  height: 1rem;
+}
+
+.rating-active {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+}
+
+#rating-container {
+  display: inline-flex;
 }
 
 #restaurant-buttons {
@@ -290,9 +321,4 @@ h1 {
     object-fit: cover;
     margin: .5rem 0;
   }
-}
-
-.iconify {
-  width: 40px;
-  height: 40px;
 }
