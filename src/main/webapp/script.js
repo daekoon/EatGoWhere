@@ -97,7 +97,8 @@ function initMap() {
             lat: originLat,
             lng: originLng,
             filter: getDieteryRestrictions(),
-            price: getPriceFilter()
+            price: getPriceFilter(),
+            distance: getDistanceFilter()
           }
 
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
@@ -214,6 +215,14 @@ function getDieteryRestrictions() {
    return '';
 }
 
+function getDistanceFilter() {
+  const distanceForm = document.getElementById("distance-filter");
+  if (distanceForm.value == null) {
+    return 500
+  }
+  return distanceForm.value;
+}
+
 function getPriceFilter() {
    const priceSlider = document.getElementById("price-filter");
    return priceSlider.value
@@ -265,11 +274,6 @@ function updateRestaurantInfo(restaurant, marker) {
   infowindow.open(map, marker);
 }
 
-function clearPACInput() {
-  const pacClearElem = document.getElementById('pac-input');
-  pacClearElem.value = '';
-}
-
 document.getElementById("resize-nav-button").addEventListener("click", function() {
   resizeNavButton();
 });
@@ -279,10 +283,12 @@ function resizeNavButton(keepCollapsed=false) {
   let topNavBar = document.getElementById("pac-card");
   if (keepCollapsed || !topNavBar.style.maxHeight) {
     topNavBar.style.maxHeight = "105px";
+    topNavBar.style.overflowY = "hidden";
     button.textContent = "Expand";
   }
   else {
     topNavBar.style.maxHeight = null;
+    topNavBar.style.overflowY = "auto";
     button.textContent = "Collapse";
   }
 }

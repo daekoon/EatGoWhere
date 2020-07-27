@@ -49,11 +49,11 @@ public class PlacesListServlet extends HttpServlet {
         LatLng currentLocation = new LatLng(lat, lng);
         PriceLevel maxPrice = getPriceLevel(request.getParameter("price"));
         String filter = request.getParameter("filter");
-        Integer distance = Integer.parseInt(request.getParemeter("dist"))
+        Integer distance = Integer.parseInt(request.getParameter("distance"));
 
         NearbySearchRequest nearbySearch = new NearbySearchRequest(this.context)
             .location(currentLocation)
-            .radius(500) // Metres, can change via filter
+            .radius(distance) // Metres, can change via filter
             .openNow(true)
             .maxPrice(maxPrice)
             .type(PlaceType.RESTAURANT);
