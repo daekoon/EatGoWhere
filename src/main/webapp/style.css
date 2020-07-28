@@ -10,6 +10,10 @@ h1 {
   font-size: 1.6rem;
 }
 
+*:focus{
+  outline: none;
+}
+
 #map-container {
   width: 100vw;
   height: 100vh;
@@ -69,7 +73,7 @@ h1 {
 
 #pac-clear {
   position: absolute;
-  right: 120px;
+  right: 90px;
   top: 63px;
   font-weight: 100;
   font-size: 30px;
@@ -87,8 +91,9 @@ h1 {
   font-size: 1rem;
   font-weight: 300;
   text-overflow: ellipsis;
-  width: calc(100% - 120px);
+  width: calc(100% - 90px);
   padding-right: 30px;
+  border-radius: 10px;
 }
 
 #pac-input:focus {
@@ -109,15 +114,16 @@ h1 {
 #restaurant-filter fieldset {
   padding: .5rem;
   margin: 0;
+  border-radius: 10px;
 }
 
 #submit-button {
-  width: 70px;
+  width: 40px;
   margin: 0;
   margin-left: 5px;
   background-color: #4d90fe;
   border: none;
-  border-radius: 5px;
+  border-radius: 400px;
   color: white;
   padding: 10px;
   text-align: center;
@@ -126,7 +132,6 @@ h1 {
 }
 
 #result-container {
-  display: none;
   margin: 10px;
   padding: 20px;
   border-radius: 8px;
@@ -230,6 +235,22 @@ h1 {
   }
 }
 
+.hide {
+  display: none !important;
+}
+
+.show {
+  display: block;
+}
+
+#resize-nav-button {
+  position: relative;
+  top: -12px;
+  right: -10px;
+  border: 0px;
+  background: transparent;
+}
+
 #price-filter-container {
   display: flex;
   align-items: center;
@@ -240,11 +261,6 @@ h1 {
 
 #price-filter {
   width: 70%;
-}
-
-.iconify {
-  width: 40px;
-  height: 40px;
 }
 
 #price-filter-max {

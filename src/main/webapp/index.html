@@ -30,26 +30,31 @@
         <span id="place-name" class="title"></span><br />
         <span id="place-address"></span>
       </div>
-      <div id="infowindow-restaurant-content">
-        <div id="info-restaurant-name">${name}</div>
+      <div id="infowindow-restaurant-content" class="hide">
+        <div id="info-restaurant-name"></div>
         <a target="_blank" id="info-restaurant-dir">
-          <img src="https://gstatic.com/images/icons/material/system/2x/directions_gm_blue_20dp.png">
+          <span class="iconify" data-icon="bx:bxs-direction-right" data-inline="false" data-width="38px" data-height="38px" style="color: blue;"></span>
         </a>
         <a id="whatsapp-share">
-          <span class="iconify" data-icon="logos:whatsapp" data-inline="false"></span>
+          <span class="iconify" data-icon="logos:whatsapp" data-inline="false" data-width="40px" data-height="40px"></span>
         </a>
         <a id="telegram-share">
-          <span class="iconify" data-icon="logos:telegram" data-inline="false"></span>
+          <span class="iconify" data-icon="logos:telegram" data-inline="false" data-width="35px" data-height="35px"></span>
         </a>
       </div>
     </div>
     <div id="right-tab">
       <div id="pac-card">
         <h1>EatGoWhere</h1>
-        <a id="resize-nav-button">Collapse</a>
+        <button id="resize-nav-button">
+          <span id="expand-top-button" class="iconify hide" data-icon="bi:arrows-expand" data-inline="false" data-width="25px" data-height="25px" style="color: gray;"></span>
+          <span id="collapse-top-button"class="iconify show" data-icon="bi:arrows-collapse" data-inline="false" data-width="25px" data-height="25px" style="color: gray;"></span>
+        </button>
         <input id="pac-input" type="text" placeholder="Enter your location" />
         <span id="pac-clear" onClick='clearPACInput()'>&times;</span>
-        <button id="submit-button">Submit</button>
+        <button id="submit-button">
+          <span class="iconify" data-icon="bi-search" data-inline="false" data-width="15px" data-height="15px" style="color: white;"></span>
+        </button>
         <div id="pac-container">
             <form id="restaurant-filter">
               <fieldset>
@@ -87,7 +92,7 @@
 
       </div>
 
-      <div id="result-container">
+      <div id="result-container" class="hide">
         <h2>Recommended Restaurants</h2>
         <ul id="restaurant-list"></ul>
         <div id='result-share-container'></div>
