@@ -30,7 +30,9 @@ function initMap() {
     anchorPoint: new google.maps.Point(0, -29)
   });
 
-  getLocation();
+  navigator.geolocation.getCurrentPosition(updateLocation, () => {
+    window.alert("Please enter your location manually");
+  }, {enableHighAccuracy: true});
 
   // If user selects one of the locations in the autocomplete UI
   autocomplete.addListener('place_changed', function() {
@@ -294,13 +296,6 @@ function resizeNavButton(keepCollapsed=false) {
   }
 }
 
-function getLocation() {
-  url = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDQOaxpasHdNc5bF4dTDNureWyCxwQ-Lzc"
-  fetch(url, {method: 'POST'}).then(response => response.json()).then(
-    result => updateLocation(result)
-  );
-}
-
 let userMarker;
 let userInfowindow;
 
@@ -308,18 +303,25 @@ function updateLocation(result) {
   if (!userInfowindow) {
     userInfowindow = new google.maps.InfoWindow();
   }
+  coords = {
+    lat: result.coords.latitude,
+    lng: result.coords.longitude
+  }
   userMarker = new google.maps.Marker({
     map: map,
     anchorPoint: new google.maps.Point(0, -29),
-    position: result.location,
+    position: coords,
     title: 'user-location',
     icon: {
       url: orangeIconUrl
     }
   });
+
   userInfowindow.setContent("Your Location");
   userInfowindow.open(map, userMarker);
-  map.panTo(result.location);
+  // make user location coordinates show in the lower third of screen
+  coords.lat = coords.lat + 0.002;
+  map.panTo(coords);
   map.setZoom(17);
 }
 
