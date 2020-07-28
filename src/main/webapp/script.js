@@ -96,7 +96,8 @@ function initMap() {
           params = {
             lat: originLat,
             lng: originLng,
-            filter: getDieteryRestrictions()
+            filter: getDieteryRestrictions(),
+            price: getPriceFilter()
           }
 
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
@@ -116,7 +117,11 @@ let selectedIndex;
 
 function updateRestaurantList(restaurants) {
   let resContainerElement = document.getElementById("result-container");
-  resContainerElement.style.display = "block";
+
+  resContainerElement.classList.remove("hide");
+  if(document.getElementById("infowindow-restaurant-content")){
+    document.getElementById("infowindow-restaurant-content").classList.remove("hide");
+  }
 
   let resListElement = document.getElementById("restaurant-list");
   resListElement.innerHTML = '';
@@ -215,6 +220,11 @@ function getDieteryRestrictions() {
    return '';
 }
 
+function getPriceFilter() {
+   const priceSlider = document.getElementById("price-filter");
+   return priceSlider.value
+}
+
 const filterButtons = document.getElementsByName("restaurant-filter");
 let currentFilter;
 
@@ -271,15 +281,18 @@ document.getElementById("resize-nav-button").addEventListener("click", function(
 });
 
 function resizeNavButton(keepCollapsed=false) {
-  let button = document.getElementById("resize-nav-button");
+  const expandButton = document.getElementById("expand-top-button");
+  const collapseButton = document.getElementById("collapse-top-button");
   let topNavBar = document.getElementById("pac-card");
   if (keepCollapsed || !topNavBar.style.maxHeight) {
     topNavBar.style.maxHeight = "105px";
-    button.textContent = "Expand";
+    expandButton.classList.replace("hide", "show");
+    collapseButton.classList.replace("show", "hide");
   }
   else {
     topNavBar.style.maxHeight = null;
-    button.textContent = "Collapse";
+    expandButton.classList.replace("show", "hide");
+    collapseButton.classList.replace("hide", "show");
   }
 }
 
@@ -313,3 +326,19 @@ function updateLocation(result) {
   
   gtag('event', 'gps');
 }
+
+document.getElementById("price-filter").addEventListener("input",function() {
+  let price = this.value;
+
+  // set icons 1 ~ price to active, rest to inactive
+  for (i=1; i<=price; i++) {
+    let priceLevel = document.getElementById("price-filter-" + i);
+    priceLevel.classList.remove("price-filter-inactive");
+    priceLevel.classList.add("price-filter-active");
+  }
+  for (i=++price; i<=4; i++) {
+    let priceLevel = document.getElementById("price-filter-" + i);
+    priceLevel.classList.remove("price-filter-active");
+    priceLevel.classList.add("price-filter-inactive");
+  }
+});
