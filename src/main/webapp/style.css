@@ -281,6 +281,10 @@ h1 {
   font-size: 1.1em;
 }
 
+#distance-filter-container {
+  padding-top: 5px;
+}
+
 #distance-filter-min,#distance-filter,#distance-filter-max {
   display: inline-block;
   vertical-align: middle;
