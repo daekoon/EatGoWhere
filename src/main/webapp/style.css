@@ -64,8 +64,7 @@ h1 {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   background-color: #fff;
   pointer-events: all;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   transition: max-height 0.3s ease-out;
   display: flex;
   flex-wrap: wrap;
@@ -103,6 +102,7 @@ h1 {
 
 #pac-container {
   display: flex;
+  height: 195px;
   width: 100%;
   margin-top: 10px;
 }

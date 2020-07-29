@@ -285,6 +285,11 @@ function updateRestaurantInfo(restaurant, marker) {
   infowindow.open(map, marker);
 }
 
+function clearPACInput() {
+  const pacClearElem = document.getElementById('pac-input');
+  pacClearElem.value = '';
+}
+
 document.getElementById("resize-nav-button").addEventListener("click", function() {
   resizeNavButton();
 });
@@ -293,15 +298,17 @@ function resizeNavButton(keepCollapsed=false) {
   const expandButton = document.getElementById("expand-top-button");
   const collapseButton = document.getElementById("collapse-top-button");
   let topNavBar = document.getElementById("pac-card");
+  let filterContainer = document.getElementById("pac-container");
+
   if (keepCollapsed || !topNavBar.style.maxHeight) {
     topNavBar.style.maxHeight = "105px";
-    topNavBar.style.overflowY = "hidden";
+    filterContainer.style.overflowY = "hidden";
     expandButton.classList.replace("hide", "show");
     collapseButton.classList.replace("show", "hide");
   }
   else {
     topNavBar.style.maxHeight = null;
-    topNavBar.style.overflowY = "auto";
+    filterContainer.style.overflowY = "auto";
     expandButton.classList.replace("show", "hide");
     collapseButton.classList.replace("hide", "show");
   }
