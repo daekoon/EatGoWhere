@@ -30,7 +30,9 @@ function initMap() {
     anchorPoint: new google.maps.Point(0, -29)
   });
 
-  getLocation();
+  navigator.geolocation.getCurrentPosition(updateLocation, () => {
+    window.alert("Please enter your location manually");
+  }, {enableHighAccuracy: true});
 
   // If user selects one of the locations in the autocomplete UI
   autocomplete.addListener('place_changed', function() {
@@ -108,6 +110,11 @@ function initMap() {
         updateRestaurantList(data.results);
       })
     }))
+
+    if (place)
+      gtag('event', 'search', {'search_term': place.name});
+    else
+      gtag('event', 'search');
   });
 }
 
@@ -116,7 +123,11 @@ let selectedIndex;
 
 function updateRestaurantList(restaurants) {
   let resContainerElement = document.getElementById("result-container");
-  resContainerElement.style.display = "block";
+
+  resContainerElement.classList.remove("hide");
+  if(document.getElementById("infowindow-restaurant-content")){
+    document.getElementById("infowindow-restaurant-content").classList.remove("hide");
+  }
 
   let resListElement = document.getElementById("restaurant-list");
   resListElement.innerHTML = '';
@@ -279,25 +290,21 @@ document.getElementById("resize-nav-button").addEventListener("click", function(
 });
 
 function resizeNavButton(keepCollapsed=false) {
-  let button = document.getElementById("resize-nav-button");
+  const expandButton = document.getElementById("expand-top-button");
+  const collapseButton = document.getElementById("collapse-top-button");
   let topNavBar = document.getElementById("pac-card");
   if (keepCollapsed || !topNavBar.style.maxHeight) {
     topNavBar.style.maxHeight = "105px";
     topNavBar.style.overflowY = "hidden";
-    button.textContent = "Expand";
+    expandButton.classList.replace("hide", "show");
+    collapseButton.classList.replace("show", "hide");
   }
   else {
     topNavBar.style.maxHeight = null;
     topNavBar.style.overflowY = "auto";
-    button.textContent = "Collapse";
+    expandButton.classList.replace("show", "hide");
+    collapseButton.classList.replace("hide", "show");
   }
-}
-
-function getLocation() {
-  url = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDQOaxpasHdNc5bF4dTDNureWyCxwQ-Lzc"
-  fetch(url, {method: 'POST'}).then(response => response.json()).then(
-    result => updateLocation(result)
-  );
 }
 
 let userMarker;
@@ -307,19 +314,28 @@ function updateLocation(result) {
   if (!userInfowindow) {
     userInfowindow = new google.maps.InfoWindow();
   }
+  coords = {
+    lat: result.coords.latitude,
+    lng: result.coords.longitude
+  }
   userMarker = new google.maps.Marker({
     map: map,
     anchorPoint: new google.maps.Point(0, -29),
-    position: result.location,
+    position: coords,
     title: 'user-location',
     icon: {
       url: orangeIconUrl
     }
   });
+
   userInfowindow.setContent("Your Location");
   userInfowindow.open(map, userMarker);
-  map.panTo(result.location);
+  // make user location coordinates show in the lower third of screen
+  coords.lat = coords.lat + 0.002;
+  map.panTo(coords);
   map.setZoom(17);
+  
+  gtag('event', 'gps');
 }
 
 document.getElementById("price-filter").addEventListener("input",function() {
