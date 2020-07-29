@@ -10,6 +10,10 @@ h1 {
   font-size: 1.6rem;
 }
 
+*:focus{
+  outline: none;
+}
+
 #map-container {
   width: 100vw;
   height: 100vh;
@@ -69,7 +73,7 @@ h1 {
 
 #pac-clear {
   position: absolute;
-  right: 120px;
+  right: 90px;
   top: 63px;
   font-weight: 100;
   font-size: 30px;
@@ -87,8 +91,9 @@ h1 {
   font-size: 1rem;
   font-weight: 300;
   text-overflow: ellipsis;
-  width: calc(100% - 120px);
+  width: calc(100% - 90px);
   padding-right: 30px;
+  border-radius: 10px;
 }
 
 #pac-input:focus {
@@ -101,11 +106,6 @@ h1 {
   margin-top: 10px;
 }
 
-.iconify {
-  width: 40px;
-  height: 40px;
-}
-
 #restaurant-filter {
   padding: 0;
   width: 100%;
@@ -114,15 +114,16 @@ h1 {
 #restaurant-filter fieldset {
   padding: .5rem;
   margin: 0;
+  border-radius: 10px;
 }
 
 #submit-button {
-  width: 70px;
+  width: 40px;
   margin: 0;
   margin-left: 5px;
   background-color: #4d90fe;
   border: none;
-  border-radius: 5px;
+  border-radius: 400px;
   color: white;
   padding: 10px;
   text-align: center;
@@ -196,9 +197,8 @@ h1 {
   width: 30px;
 }
 
-#restaurant-title a img {
-  height: 30px;
-  width: 30px;
+#restaurant-title a svg {
+  color: #4d90fe;
   margin: 0 10px;
 }
 
@@ -270,6 +270,51 @@ h1 {
   font-size: 1.1rem;
 }
 
+.hide {
+  display: none !important;
+}
+
+.show {
+  display: block;
+}
+
+#resize-nav-button {
+  position: relative;
+  top: -12px;
+  right: -10px;
+  border: 0px;
+  background: transparent;
+}
+
+#price-filter-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  font-size: 1em;
+}
+
+#price-filter {
+  width: 70%;
+}
+
+#price-filter-max {
+  display: flex;
+  align-items: center;
+}
+
+.price-filter-active {
+  background-color: transparent;
+  color: darkgreen;
+  font-size: 1.3em;
+}
+
+.price-filter-inactive {
+  background-color: transparent;
+  color: darkgray;
+  font-size: 1.1em;
+}
+
 @media only screen and (max-width: 768px) {
   #map-container {
     height: 100%;
@@ -298,6 +343,7 @@ h1 {
     overflow: auto;
   }
 
+
   #result-container.result-hidden {
     max-height: 40px;
     overflow: hidden;
@@ -317,6 +363,7 @@ h1 {
 
   #result-hide-button svg {
     height: 25px;
+    width: 25px;
     color: slategray;
   }
 

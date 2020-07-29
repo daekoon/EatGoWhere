@@ -29,6 +29,10 @@ function initMap() {
     anchorPoint: new google.maps.Point(0, -29)
   });
 
+  navigator.geolocation.getCurrentPosition(updateLocation, () => {
+    window.alert("Please enter your location manually");
+  }, {enableHighAccuracy: true});
+
   // If user selects one of the locations in the autocomplete UI
   autocomplete.addListener('place_changed', function() {
     infowindow.close();
@@ -73,16 +77,29 @@ function initMap() {
       // User clicked submit without choosing a field from autocomplete
       // or entered the name of a Place that was not suggested and
       // pressed the Enter key, or the Place Details request failed.
-      window.alert("Please enter a valid location!");
-      return;
+      if (!userMarker) {
+        // User disabled location and didn't choose a place
+        window.alert("Please enter a valid location!");
+        return;
+      } else {
+        var originLat = userMarker.position.lat(),
+          originLng =  userMarker.position.lng();
+      }
+    } else {
+      var originLat = place.geometry.location.lat(),
+          originLng =  place.geometry.location.lng();
     }
+
     resizeNavButton(keepCollapsed=true);
+
     const url = new URL('/places-list', window.location.origin),
           params = {
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng(),
-            filter: getDieteryRestrictions()
+            lat: originLat,
+            lng: originLng,
+            filter: getDieteryRestrictions(),
+            price: getPriceFilter()
           }
+
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
     fetch(url).then((response => {
@@ -90,6 +107,11 @@ function initMap() {
         updateRestaurant(data.results);
       })
     }))
+
+    if (place)
+      gtag('event', 'search', {'search_term': place.name});
+    else
+      gtag('event', 'search');
   });
 }
 
@@ -108,6 +130,7 @@ function updateRestaurant(result) {
   } else {
     document.getElementById("restaurant-details").style.display = "flex";
     document.getElementById("no-result-text").style.display = "none";
+
 
     updateRestaurantDetails(0);
 
@@ -269,6 +292,11 @@ function getDieteryRestrictions() {
    return '';
 }
 
+function getPriceFilter() {
+   const priceSlider = document.getElementById("price-filter");
+   return priceSlider.value
+}
+
 const filterButtons = document.getElementsByName("restaurant-filter");
 let currentFilter;
 
@@ -312,14 +340,64 @@ document.getElementById("resize-nav-button").addEventListener("click", function(
 });
 
 function resizeNavButton(keepCollapsed=false) {
-  let button = document.getElementById("resize-nav-button");
+  const expandButton = document.getElementById("expand-top-button");
+  const collapseButton = document.getElementById("collapse-top-button");
   let topNavBar = document.getElementById("pac-card");
   if (keepCollapsed || !topNavBar.style.maxHeight) {
     topNavBar.style.maxHeight = "105px";
-    button.textContent = "Expand";
+    expandButton.classList.replace("hide", "show");
+    collapseButton.classList.replace("show", "hide");
   }
   else {
     topNavBar.style.maxHeight = null;
-    button.textContent = "Collapse";
+    expandButton.classList.replace("show", "hide");
+    collapseButton.classList.replace("hide", "show");
   }
 }
+
+let userMarker;
+let userInfowindow;
+
+function updateLocation(result) {
+  if (!userInfowindow) {
+    userInfowindow = new google.maps.InfoWindow();
+  }
+  coords = {
+    lat: result.coords.latitude,
+    lng: result.coords.longitude
+  }
+  userMarker = new google.maps.Marker({
+    map: map,
+    anchorPoint: new google.maps.Point(0, -29),
+    position: coords,
+    title: 'user-location',
+    icon: {
+      url: orangeIconUrl
+    }
+  });
+
+  userInfowindow.setContent("Your Location");
+  userInfowindow.open(map, userMarker);
+  // make user location coordinates show in the lower third of screen
+  coords.lat = coords.lat + 0.002;
+  map.panTo(coords);
+  map.setZoom(17);
+  
+  gtag('event', 'gps');
+}
+
+document.getElementById("price-filter").addEventListener("input",function() {
+  let price = this.value;
+
+  // set icons 1 ~ price to active, rest to inactive
+  for (i=1; i<=price; i++) {
+    let priceLevel = document.getElementById("price-filter-" + i);
+    priceLevel.classList.remove("price-filter-inactive");
+    priceLevel.classList.add("price-filter-active");
+  }
+  for (i=++price; i<=4; i++) {
+    let priceLevel = document.getElementById("price-filter-" + i);
+    priceLevel.classList.remove("price-filter-active");
+    priceLevel.classList.add("price-filter-inactive");
+  }
+});
