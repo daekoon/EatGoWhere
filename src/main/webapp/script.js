@@ -107,6 +107,11 @@ function initMap() {
         updateRestaurantList(data.results);
       })
     }))
+
+    if (place)
+      gtag('event', 'search', {'search_term': place.name});
+    else
+      gtag('event', 'search');
   });
 }
 
@@ -321,6 +326,8 @@ function updateLocation(result) {
   userInfowindow.open(map, userMarker);
   map.panTo(result.location);
   map.setZoom(17);
+  
+  gtag('event', 'gps');
 }
 
 document.getElementById("price-filter").addEventListener("input",function() {

@@ -19,6 +19,14 @@
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQOaxpasHdNc5bF4dTDNureWyCxwQ-Lzc&libraries=places&callback=initMap"
       defer
     ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W9FWBWFK1C"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-W9FWBWFK1C');
+    </script>
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
   </head>
 
@@ -35,10 +43,10 @@
         <a target="_blank" id="info-restaurant-dir">
           <span class="iconify" data-icon="bx:bxs-direction-right" data-inline="false" data-width="38px" data-height="38px" style="color: blue;"></span>
         </a>
-        <a id="whatsapp-share">
+        <a id="whatsapp-share" onclick="gtag('event', 'share', {'method': 'Whatsapp'})">
           <span class="iconify" data-icon="logos:whatsapp" data-inline="false" data-width="40px" data-height="40px"></span>
         </a>
-        <a id="telegram-share">
+        <a id="telegram-share" onclick="gtag('event', 'share', {'method': 'Telegram'})">
           <span class="iconify" data-icon="logos:telegram" data-inline="false" data-width="35px" data-height="35px"></span>
         </a>
       </div>
