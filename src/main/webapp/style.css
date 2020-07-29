@@ -248,3 +248,37 @@ h1 {
   color: darkgray;
   font-size: 1.1em;
 }
+
+#distance-filter-min,#distance-filter,#distance-filter-max {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#distance-filter-min-container {
+  float: left;
+  width: 15%;
+  text-align: right;
+}
+
+#distance-filter-slider-container {
+  float: left;
+  width: 60%;
+}
+
+#distance-filter-max-container {
+  float: left;
+  width: 25%;
+  text-align: left;
+}
+
+#distance-filter {
+  width: 100%;
+}
+
+#distance-filter-min {
+  padding-right: 5px;
+}
+
+#distance-filter-max {
+  padding-left: 8px;
+}

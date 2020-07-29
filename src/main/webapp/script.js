@@ -337,3 +337,8 @@ document.getElementById("price-filter").addEventListener("input",function() {
     priceLevel.classList.add("price-filter-inactive");
   }
 });
+
+document.getElementById("distance-filter").addEventListener("input",function() {
+  let distance = this.value;
+  document.getElementById("distance-filter-max").innerText = distance + "m"
+});
