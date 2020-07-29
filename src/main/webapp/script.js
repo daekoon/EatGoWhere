@@ -108,7 +108,10 @@ function initMap() {
       })
     }))
 
-    gtag('event', 'search', {'search_term': autocomplete.getPlace().name});
+    if (place)
+      gtag('event', 'search', {'search_term': place.name});
+    else
+      gtag('event', 'search');
   });
 }
 
