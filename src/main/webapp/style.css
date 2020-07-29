@@ -179,6 +179,7 @@ h1 {
   width: calc(25vw - 80px);
   object-fit: cover;
   margin: .5rem 0;
+  border-radius: 8px;
 }
 
 #restaurant-links {
@@ -341,17 +342,24 @@ h1 {
     left: 0;
     transition: max-height 0.3s ease-in-out;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
+  #result-scroll-container {
+    width: 100%;
+    display: flex;
+    overflow-y: auto;
+    flex-direction: column;
+  }
 
   #result-container.result-hidden {
     max-height: 40px;
     overflow: hidden;
   }
 
-  #result-container.result-hidden #result-hide-button {
-    margin-bottom: 10px;
-  }
+  /*#result-container.result-hidden #result-hide-button {*/
+  /*  margin-bottom: 20px;*/
+  /*}*/
 
   #result-hide-button {
     display: block;

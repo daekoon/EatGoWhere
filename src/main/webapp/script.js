@@ -119,7 +119,7 @@ let restaurants;
 let restaurantIndex = 0;
 function updateRestaurant(result) {
   let resContainerElement = document.getElementById("result-container");
-  resContainerElement.style.display = "flex";
+  resContainerElement.style.display = "block";
 
   shuffleArray(result);
   restaurants = result;
