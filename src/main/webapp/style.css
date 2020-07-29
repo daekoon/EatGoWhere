@@ -151,6 +151,8 @@ h1 {
   flex-direction: column;
   align-items: center;
   width: 100%;
+
+  margin-top: 10px;
 }
 
 #restaurant-details h2 {
@@ -172,9 +174,8 @@ h1 {
 }
 
 #restaurant-image{
-  max-height: 200px;
-  min-height: 100px;
-  max-width: calc(25vw - 60px);
+  height: 200px;
+  width: calc(25vw - 80px);
   object-fit: cover;
   margin: .5rem 0;
 }
@@ -241,6 +242,7 @@ h1 {
   border-radius: 3px;
   text-decoration: none;
   cursor: pointer;
+  background: #F5F5F5;
 }
 
 #restaurant-buttons button:hover {
@@ -301,10 +303,13 @@ h1 {
     overflow: hidden;
   }
 
+  #result-container.result-hidden #result-hide-button {
+    margin-bottom: 10px;
+  }
+
   #result-hide-button {
     display: block;
-    height: 20px;
-    margin-bottom: 10px;
+    height: 25px;
 
     border: none;
     background: none;
@@ -316,8 +321,8 @@ h1 {
   }
 
   #restaurant-image {
-    max-height: 150px;
-    max-width: 250px;
+    height: 150px;
+    width: 250px;
     object-fit: cover;
     margin: .5rem 0;
   }
