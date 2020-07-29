@@ -126,8 +126,8 @@ let selectedIndex;
 function updateRestaurantList(restaurants) {
   let resContainerElement = document.getElementById("result-container");
 
-  resContainerElement.scrollTop = 0;
   resContainerElement.classList.remove("hide");
+  resContainerElement.scrollTop = 0;
   if(document.getElementById("infowindow-restaurant-content")){
     document.getElementById("infowindow-restaurant-content").classList.remove("hide");
   }
