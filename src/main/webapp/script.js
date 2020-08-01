@@ -33,6 +33,8 @@ function initMap() {
     window.alert("Please enter your location manually");
   }, {enableHighAccuracy: true});
 
+  document.getElementById("resize-nav-button").click();
+
   // If user selects one of the locations in the autocomplete UI
   autocomplete.addListener('place_changed', function() {
     infowindow.close();
@@ -91,12 +93,13 @@ function initMap() {
     }
 
     resizeNavButton(keepCollapsed=true);
+    document.getElementById("result-container").classList.add("hide");
 
     const url = new URL('/places-list', window.location.origin),
           params = {
             lat: originLat,
             lng: originLng,
-            filter: getDieteryRestrictions(),
+            filter: getCuisineFilter(),
             price: getPriceFilter()
           }
 
@@ -131,6 +134,9 @@ function updateRestaurant(result) {
     document.getElementById("restaurant-details").style.display = "flex";
     document.getElementById("no-result-text").style.display = "none";
 
+    resContainerElement.classList.remove("hide");
+    resContainerElement.scrollTop = 0;
+    document.getElementById("infowindow-restaurant-content").classList.remove("hide");
 
     updateRestaurantDetails(0);
 
@@ -282,14 +288,9 @@ function updateRating(rating) {
   }
 }
 
-function getDieteryRestrictions() {
-   const filterForm = document.getElementsByName('restaurant-filter');
-   for (let filter of filterForm) {
-     if (filter.checked) {
-       return filter.value;
-     }
-   }
-   return '';
+function getCuisineFilter() {
+   const cuisineSelect = document.getElementById("cuisine-filter");
+   return cuisineSelect.value;
 }
 
 function getPriceFilter() {
@@ -379,7 +380,7 @@ function updateLocation(result) {
   userInfowindow.setContent("Your Location");
   userInfowindow.open(map, userMarker);
   // make user location coordinates show in the lower third of screen
-  coords.lat = coords.lat + 0.002;
+  coords.lat = coords.lat + 0.001;
   map.panTo(coords);
   map.setZoom(17);
   

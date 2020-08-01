@@ -111,12 +111,6 @@ h1 {
   width: 100%;
 }
 
-#restaurant-filter fieldset {
-  padding: .5rem;
-  margin: 0;
-  border-radius: 10px;
-}
-
 #submit-button {
   width: 40px;
   margin: 0;
@@ -316,6 +310,23 @@ h1 {
   font-size: 1.1em;
 }
 
+#cuisine-filter-container {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+#cuisine-filter-container * {
+  border-radius: 10px;
+  font-size: 1.1em;
+}
+
+#cuisine-filter {
+  width: 95%;
+  padding: 0.2em 0.2em 0.2em 0.8em;
+  appearance: none;
+}
+
 @media only screen and (max-width: 768px) {
   #map-container {
     height: 100%;
@@ -356,10 +367,6 @@ h1 {
     max-height: 40px;
     overflow: hidden;
   }
-
-  /*#result-container.result-hidden #result-hide-button {*/
-  /*  margin-bottom: 20px;*/
-  /*}*/
 
   #result-hide-button {
     display: block;
