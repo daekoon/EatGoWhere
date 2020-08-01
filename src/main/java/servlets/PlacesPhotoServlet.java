@@ -42,7 +42,7 @@ public class PlacesPhotoServlet extends HttpServlet {
         String photoRef = request.getParameter("photoRef");
 
         PhotoRequest photoRequest = new PhotoRequest(this.context)
-            .maxWidth(150)
+            .maxWidth(350)
             .photoReference(photoRef);
             
         try {

@@ -40,15 +40,6 @@
       </div>
       <div id="infowindow-restaurant-content" class="hide">
         <div id="info-restaurant-name"></div>
-        <a target="_blank" id="info-restaurant-dir">
-          <span class="iconify" data-icon="bx:bxs-direction-right" data-inline="false" data-width="38px" data-height="38px" style="color: blue;"></span>
-        </a>
-        <a id="whatsapp-share" onclick="gtag('event', 'share', {'method': 'Whatsapp'})">
-          <span class="iconify" data-icon="logos:whatsapp" data-inline="false" data-width="40px" data-height="40px"></span>
-        </a>
-        <a id="telegram-share" onclick="gtag('event', 'share', {'method': 'Telegram'})">
-          <span class="iconify" data-icon="logos:telegram" data-inline="false" data-width="35px" data-height="35px"></span>
-        </a>
       </div>
     </div>
     <div id="right-tab">
@@ -65,7 +56,7 @@
         </button>
         <div id="pac-container">
             <form id="restaurant-filter">
-              <div id="price-filter-container" width="100%"">
+              <div id="price-filter-container" width="100%">
                 <span class="price-filter-active">$</span>
                 <input type="range" min="1" max="4" value="2" class="slider" id="price-filter">
                 <div id="price-filter-max">
@@ -98,17 +89,67 @@
                 </select>
               </div>
             </form>
+        </div>
+      </div>
+
+      <div id="result-container">
+
+        <div id="result-scroll-container">
+          <button id="result-hide-button">
+            <span class="iconify" data-icon="dashicons:arrow-down-alt2" data-inline="false"></span>
+          </button>
+
+          <p id="no-result-text">No restaurants found.</p>
+
+          <div id="restaurant-details">
+            <h2>Recommended Restaurant</h2>
+            <img id="restaurant-image"/>
+
+            <div id="restaurant-title">
+              <h3 id="restaurant-name">Name</h3>
+              <a target="_blank" id="restaurant-dir">
+                <span class="iconify" data-icon="bx:bxs-direction-right" data-inline="false" data-width="38px" data-height="38px" ></span>
+              </a>
+            </div>
+
+            <div id="rating-section">
+              <span>Rating: </span>
+              <span id="rating-number"></span>
+              <div id="rating-container">
+                <span class="iconify rating-inactive" data-icon="bi-star-fill" data-inline="false" style="color: gold;" id="rating-1"></span>
+                <span class="iconify rating-inactive" data-icon="bi-star-fill" data-inline="false" style="color: gold;" id="rating-2"></span>
+                <span class="iconify rating-inactive" data-icon="bi-star-fill" data-inline="false" style="color: gold;" id="rating-3"></span>
+                <span class="iconify rating-inactive" data-icon="bi-star-fill" data-inline="false" style="color: gold;" id="rating-4"></span>
+                <span class="iconify rating-inactive" data-icon="bi-star-fill" data-inline="false" style="color: gold;" id="rating-5"></span>
+                <span class="iconify rating-inactive" data-icon="bi-star-half" data-inline="false" style="color: gold;" id="rating-half"></span>
+                <span class="iconify rating-inactive" data-icon="bi-star" data-inline="false" style="color: gold;" id="empty-rating-1"></span>
+                <span class="iconify rating-inactive" data-icon="bi-star" data-inline="false" style="color: gold;" id="empty-rating-2"></span>
+                <span class="iconify rating-inactive" data-icon="bi-star" data-inline="false" style="color: gold;" id="empty-rating-3"></span>
+                <span class="iconify rating-inactive" data-icon="bi-star" data-inline="false" style="color: gold;" id="empty-rating-4"></span>
+                <span class="iconify rating-inactive" data-icon="bi-star" data-inline="false" style="color: gold;" id="empty-rating-5"></span>
+              </div>
+              <span id="rating-users-number"></span>
+            </div>
+
+            <div id="restaurant-links">
+              <div>Share: </div>
+              <a id="restaurant-whatsapp-share" onclick="gtag('event', 'share', {'method': 'Whatsapp'})">
+                <span class="iconify" data-icon="logos:whatsapp" data-inline="false"></span>
+              </a>
+              <a id="restaurant-telegram-share" onclick="gtag('event', 'share', {'method': 'Telegram'})">
+                <span class="iconify" data-icon="logos:telegram" data-inline="false"></span>
+              </a>
+            </div>
+
+            <div id="restaurant-buttons">
+              <button id="previous-button"><</button>
+              <button id="next-button">></button>
+            </div>
+          </div>
 
         </div>
 
       </div>
-
-      <div id="result-container" class="hide">
-        <h2>Recommended Restaurants</h2>
-        <ul id="restaurant-list"></ul>
-        <div id='result-share-container'></div>
-      </div>
-
     </div>
   </body>
 </html>
