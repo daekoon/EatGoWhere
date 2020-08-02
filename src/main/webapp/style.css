@@ -311,6 +311,7 @@ h1 {
 }
 
 #distance-filter-max {
+  display: flex;
   padding-left: 8px;
 }
 
@@ -323,6 +324,7 @@ h1 {
 #cuisine-filter-container * {
   border-radius: 10px;
   font-size: 1.1em;
+  width: 100%;
 }
 
 #cuisine-filter {

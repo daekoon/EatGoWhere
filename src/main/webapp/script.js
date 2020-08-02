@@ -101,7 +101,7 @@ function initMap() {
           params = {
             lat: originLat,
             lng: originLng,
-            filter: getCusineFilter(),
+            filter: getCuisineFilter(),
             price: getPriceFilter(),
             distance: getDistanceFilter()
 
