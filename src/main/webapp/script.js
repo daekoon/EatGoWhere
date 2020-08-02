@@ -1,5 +1,4 @@
 let map;
-let markers = [];
 
 const blueIconUrl = "https://maps.google.com/mapfiles/ms/icons/blue-dot.png";
 const orangeIconUrl = "https://maps.google.com/mapfiles/ms/icons/orange-dot.png";
@@ -75,7 +74,6 @@ function initMap() {
 
 
   document.getElementById("submit-button").addEventListener("click", function(){
-    clearMarkers();
     let place = autocomplete.getPlace();
     if (!place || !place.geometry) {
       // User clicked submit without choosing a field from autocomplete
@@ -111,7 +109,7 @@ function initMap() {
 
     fetch(url).then((response => {
       response.json().then((data) => {
-        updateRestaurantList(data.results);
+        updateRestaurant(data.results);
       })
     }))
 
@@ -122,103 +120,174 @@ function initMap() {
   });
 }
 
-let selectedElement;
-let selectedIndex;
-
-function updateRestaurantList(restaurants) {
+let restaurants;
+let restaurantIndex = 0;
+function updateRestaurant(result) {
   let resContainerElement = document.getElementById("result-container");
+  resContainerElement.style.display = "block";
 
-  resContainerElement.classList.remove("hide");
-  resContainerElement.scrollTop = 0;
-  if(document.getElementById("infowindow-restaurant-content")){
+  shuffleArray(result);
+  restaurants = result;
+
+  if(result.length === 0) {
+    document.getElementById("restaurant-details").style.display = "none";
+    document.getElementById("no-result-text").style.display = "block";
+  } else {
+    document.getElementById("restaurant-details").style.display = "flex";
+    document.getElementById("no-result-text").style.display = "none";
+
+    resContainerElement.classList.remove("hide");
+    resContainerElement.scrollTop = 0;
     document.getElementById("infowindow-restaurant-content").classList.remove("hide");
-  }
 
-  let resListElement = document.getElementById("restaurant-list");
-  resListElement.innerHTML = '';
+    updateRestaurantDetails(0);
 
-  if(restaurants.length == 0) {
-    resListElement.innerHTML = "No restaurant found.";
-  }
-
-  for(let index in restaurants) {
-    const { geometry: {location}, placeId, name, photos, rating } = restaurants[index];
-
-    const resElement = document.createElement('li');
-
-    const nameElement = document.createElement('h3');
-    nameElement.innerHTML = name;
-    resElement.appendChild(nameElement);
-    resElement.id = placeId;
-
-    // const ratingElement = document.createElement('p');
-    // ratingElement.innerHTML = rating;
-    // resElement.appendChild(ratingElement);
-
-    if(photos) {
-      const photoReference = photos[0].photoReference;
-      const url = new URL('/places-photo', window.location.origin),
-        params = {
-          photoRef: photoReference
-        }
-      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-
-      const imgElement = document.createElement('img');
-      imgElement.src = url;
-      imgElement.onerror = function() {
-        this.onerror = null;
-        this.src = '';
-      }
-      resElement.appendChild(imgElement);
+    // Show restaurant tab if hidden
+    if(resultHidden) {
+      resultHidden = false;
+      setRestaurantTab(resultHidden);
     }
 
-    resListElement.appendChild(resElement);
-
-    resElement.addEventListener('click', function() {
-      map.panTo(location);
-      map.setZoom(18);
-
-      updateRestaurantInfo(restaurants[index], markers[index]);
-      selectedElement.classList.remove("selected");
-      this.classList.add("selected");
-      selectedElement = this;
-
-      markers[selectedIndex].setIcon(blueIconUrl);
-      markers[index].setIcon(orangeIconUrl);
-      selectedIndex = index;
-    });
-
-    let restaurantMarker = new google.maps.Marker({
-      map: map,
-      anchorPoint: new google.maps.Point(0, -29),
-      position: location,
-      title: name,
-      icon: {
-        url: blueIconUrl
-      }
-    });
-
-    markers.push(restaurantMarker);
-
-    if(index == 0) {
-      selectedIndex = 0;
-      selectedElement = resElement;
-      resElement.classList.add("selected");
-      restaurantMarker.setIcon(orangeIconUrl);
-      map.panTo(location);
-      map.setZoom(18);
-      updateRestaurantInfo(restaurants[index], markers[index]);
+    // Hide next and previous buttons if only one restaurant
+    if(result.length === 1) {
+      document.getElementById("restaurant-buttons").style.display = "none";
+    } else {
+      document.getElementById("restaurant-buttons").style.display = "flex";
     }
   }
 }
 
-function clearMarkers() {
-  for(let i = 0; i < markers.length; i++) {
-    markers[i].setMap(null);
+// Randomize array in-place using Durstenfeld shuffle algorith
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
-  markers = [];
-  selectedElement = null;
-  selectedIndex = null;
+}
+
+let restaurantMarker;
+function updateRestaurantDetails(index) {
+  const { geometry: {location}, placeId, name, photos, rating, userRatingsTotal, openingHours: { openNow } } = restaurants[index];
+
+  const nameElement = document.getElementById("restaurant-name");
+  nameElement.innerHTML = name;
+
+  document.getElementById("rating-number").innerHTML = rating;
+  document.getElementById("rating-users-number").innerHTML = "(" + userRatingsTotal + ")";
+  updateRating(rating);
+
+  if(photos) {
+    const photoReference = photos[0].photoReference;
+    const url = new URL('/places-photo', window.location.origin),
+        params = {
+          photoRef: photoReference
+        }
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
+    const imgElement = document.getElementById("restaurant-image");
+    imgElement.src = url;
+    imgElement.onerror = function() {
+      this.onerror = null;
+      this.src = '';
+    }
+  }
+
+  map.panTo(location);
+  map.setZoom(18);
+
+  let params = {
+    api: 1,
+    destination: name,
+    destination_place_id: placeId
+  }
+  const dirUrl = new URL('https://www.google.com/maps/dir/');
+  Object.keys(params).forEach(key => dirUrl.searchParams.append(key, params[key]));
+
+  const directionElement = document.getElementById("restaurant-dir");
+  const whatsappElement = document.getElementById("restaurant-whatsapp-share");
+  const telegramElement = document.getElementById("restaurant-telegram-share");
+
+  directionElement.href = dirUrl;
+  whatsappElement.href = `https://wa.me/?text=${encodeURIComponent(dirUrl)}%0ALet's%20eat%20at%20${encodeURI(name)}!`;
+  telegramElement.href = `https://t.me/share/url?url=${encodeURIComponent(dirUrl)}&text=Let's%20eat%20at%20${encodeURI(name)}!`;
+
+
+  restaurantMarker && restaurantMarker.setMap(null);
+  restaurantMarker = new google.maps.Marker({
+    map: map,
+    anchorPoint: new google.maps.Point(0, -29),
+    position: location,
+    title: name,
+    icon: {
+      url: blueIconUrl
+    }
+  });
+  updateRestaurantInfo(restaurants[index], restaurantMarker);
+}
+
+function nextRestaurant() {
+  restaurantIndex = (restaurantIndex + 1) % restaurants.length;
+  updateRestaurantDetails(restaurantIndex);
+}
+
+function prevRestaurant() {
+  restaurantIndex = (restaurantIndex === 0) ? restaurants.length - 1 : restaurantIndex - 1;
+  updateRestaurantDetails(restaurantIndex);
+}
+
+function setRestaurantTab(hidden) {
+  const resultContainerElement = document.getElementById("result-container");
+  if(hidden) {
+    resultContainerElement.classList.add("result-hidden");
+    document.getElementById("result-hide-button").innerHTML = "<span class=\"iconify\" data-icon=\"dashicons:arrow-up-alt2\" data-inline=\"false\"></span>";
+  } else {
+    resultContainerElement.classList.remove("result-hidden");
+    document.getElementById("result-hide-button").innerHTML = "<span class=\"iconify\" data-icon=\"dashicons:arrow-down-alt2\" data-inline=\"false\"></span>";
+  }
+}
+
+document.getElementById("previous-button").addEventListener("click", function() {
+  prevRestaurant();
+});
+
+document.getElementById("next-button").addEventListener("click", function() {
+  nextRestaurant();
+});
+
+let resultHidden = false;
+document.getElementById("result-hide-button").addEventListener("click", function() {
+  resultHidden = !resultHidden;
+  setRestaurantTab(resultHidden);
+});
+
+function updateRating(rating) {
+  let full_stars = Math.floor(rating);
+  let half = (rating % 1) >= 0.5;
+  let empty_stars = 5 - full_stars - half;
+
+  for (let i=1; i<=full_stars; i++) {
+    document.getElementById("rating-" + i).classList.remove("rating-inactive");
+    document.getElementById("rating-" + i).classList.add("rating-active");
+  }
+  for (let i=++full_stars; i<=5 ; i++) {
+    document.getElementById("rating-" + i).classList.remove("rating-active");
+    document.getElementById("rating-" + i).classList.add("rating-inactive");
+  }
+  if (half) {
+    document.getElementById("rating-half").classList.remove("rating-inactive");
+    document.getElementById("rating-half").classList.add("rating-active");
+  } else {
+    document.getElementById("rating-half").classList.remove("rating-active");
+    document.getElementById("rating-half").classList.add("rating-inactive");
+  }
+  for (let i=1; i<=empty_stars; i++) {
+    document.getElementById("empty-rating-" + i).classList.remove("rating-inactive");
+    document.getElementById("empty-rating-" + i).classList.add("rating-active");
+  }
+  for (let i=++empty_stars; i<=5 ; i++) {
+    document.getElementById("empty-rating-" + i).classList.remove("rating-active");
+    document.getElementById("empty-rating-" + i).classList.add("rating-inactive");
+  }
 }
 
 function getCuisineFilter() {
@@ -263,21 +332,8 @@ function updateRestaurantInfo(restaurant, marker) {
     infowindow.setZIndex(500); // Random high number so it shows on top
     infowindowContent = document.getElementById('infowindow-restaurant-content');
   }
-  let { geometry: {location}, placeId, name, photos, rating } = restaurant;
 
-  let params = {
-    api: 1,
-    destination: name,
-    destination_place_id: placeId
-  }
-  const dir_url = new URL('https://www.google.com/maps/dir/');
-  Object.keys(params).forEach(key => dir_url.searchParams.append(key, params[key]));
-
-  infowindowContent.children['info-restaurant-name'].textContent = name;
-  infowindowContent.children['info-restaurant-dir'].setAttribute("href", dir_url);
-
-  infowindowContent.children['whatsapp-share'].href = `https://wa.me/?text=${encodeURIComponent(dir_url)}%0ALet's%20eat%20at%20${encodeURI(name)}!`;
-  infowindowContent.children['telegram-share'].href = `https://t.me/share/url?url=${encodeURIComponent(dir_url)}&text=Let's%20eat%20at%20${encodeURI(name)}!`;
+  infowindowContent.children['info-restaurant-name'].textContent = restaurant.name;
 
   // closes previous infowindow
   infowindow.close();
