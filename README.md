@@ -1,7 +1,7 @@
 ![logo](https://i.imgur.com/Gu0uw8z.png)
 # EatGoWhere
 
-Production site: [www.eatgowhere.co](htts://eatgowhere.co)
+Production site: [www.eatgowhere.co](https://eatgowhere.co)
 
 ### About the App
 Seamless webapp to decide on where to eat. It's fast, easy and quick. Just press search and you'll get somewhere near to eat.
