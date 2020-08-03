@@ -282,20 +282,35 @@ h1 {
 }
 
 #price-filter-container {
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
   margin-top: 10px;
   font-size: 1em;
 }
 
 #price-filter {
-  width: 70%;
+  width: 60%;
+}
+
+#price-filter-min {
+  display: flex;
+  align-items: center;
+  width: 20%;
+}
+
+#price-filter-min-text {
+  margin: 0 auto;
 }
 
 #price-filter-max {
   display: flex;
   align-items: center;
+  width: 20%;
+}
+
+#price-filter-max-text {
+  margin: 0 auto;
 }
 
 .price-filter-active {
@@ -310,6 +325,37 @@ h1 {
   font-size: 1.1em;
 }
 
+
+#distance-filter-container {
+  padding-top: 5px;
+}
+
+#distance-filter-min,#distance-filter,#distance-filter-max {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#distance-filter-min-container {
+  float: left;
+  width: 20%;
+  text-align: center;
+}
+
+#distance-filter-slider-container {
+  float: left;
+  width: 60%;
+}
+
+#distance-filter-max-container {
+  float: left;
+  width: 20%;
+  text-align: center;
+}
+
+#distance-filter {
+  width: 100%;
+}
+
 #cuisine-filter-container {
   margin-top: 15px;
   display: flex;
@@ -319,6 +365,7 @@ h1 {
 #cuisine-filter-container * {
   border-radius: 10px;
   font-size: 1.1em;
+  width: 100%;
 }
 
 #cuisine-filter {

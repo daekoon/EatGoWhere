@@ -100,7 +100,9 @@ function initMap() {
             lat: originLat,
             lng: originLng,
             filter: getCuisineFilter(),
-            price: getPriceFilter()
+            price: getPriceFilter(),
+            distance: getDistanceFilter()
+
           }
 
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
@@ -293,6 +295,14 @@ function getCuisineFilter() {
    return cuisineSelect.value;
 }
 
+function getDistanceFilter() {
+  const distanceForm = document.getElementById("distance-filter");
+  if (distanceForm.value == null) {
+    return 500
+  }
+  return distanceForm.value;
+}
+
 function getPriceFilter() {
    const priceSlider = document.getElementById("price-filter");
    return priceSlider.value
@@ -344,13 +354,17 @@ function resizeNavButton(keepCollapsed=false) {
   const expandButton = document.getElementById("expand-top-button");
   const collapseButton = document.getElementById("collapse-top-button");
   let topNavBar = document.getElementById("pac-card");
+  let filterContainer = document.getElementById("pac-container");
+
   if (keepCollapsed || !topNavBar.style.maxHeight) {
     topNavBar.style.maxHeight = "105px";
+    filterContainer.style.overflowY = "hidden";
     expandButton.classList.replace("hide", "show");
     collapseButton.classList.replace("show", "hide");
   }
   else {
     topNavBar.style.maxHeight = null;
+    filterContainer.style.overflowY = "auto";
     expandButton.classList.replace("show", "hide");
     collapseButton.classList.replace("hide", "show");
   }
@@ -401,4 +415,9 @@ document.getElementById("price-filter").addEventListener("input",function() {
     priceLevel.classList.remove("price-filter-active");
     priceLevel.classList.add("price-filter-inactive");
   }
+});
+
+document.getElementById("distance-filter").addEventListener("input",function() {
+  let distance = this.value;
+  document.getElementById("distance-filter-max").innerText = distance + "m"
 });
