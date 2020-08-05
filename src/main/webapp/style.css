@@ -187,11 +187,6 @@ h1 {
   margin-left: 10px;
 }
 
-#restaurant-links a svg {
-  height: 30px;
-  width: 30px;
-}
-
 #restaurant-title a svg {
   color: #4d90fe;
   margin: 0 10px;
