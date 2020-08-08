@@ -421,3 +421,40 @@ document.getElementById("distance-filter").addEventListener("input",function() {
   let distance = this.value;
   document.getElementById("distance-filter-max").innerText = distance + "m"
 });
+
+function resizeAboutButton(collapse=false) {
+  const expandButton = document.getElementById("expand-about-button");
+  const collapseButton = document.getElementById("collapse-about-button");
+  let aboutBar = document.getElementById("about-container");
+  let filterContainer = document.getElementById("pac-container");
+  if (collapse) {
+    expandButton.classList.replace("hide", "show");
+    collapseButton.classList.replace("show", "hide");
+    aboutBar.classList.remove("expand-about-container");
+  }
+  else {
+    expandButton.classList.replace("show", "hide");
+    collapseButton.classList.replace("hide", "show");
+    aboutBar.classList.add("expand-about-container");
+  }
+}
+
+function isTouch() {
+  return 'ontouchstart' in window || navigator.msMaxTouchPoints;
+}
+
+document.getElementById("about-container").addEventListener("mouseover", function(){
+  if (!isTouch()) resizeAboutButton(collapse=false); //prevent duplicate events on touchscreen
+});
+
+document.getElementById("about-container").addEventListener("mouseout", function(){
+  if (!isTouch()) resizeAboutButton(collapse=true); //prevent duplicate events on touchscreen
+});
+
+document.getElementById("expand-about-button").addEventListener("click", function(){
+  resizeAboutButton(collapse=false);
+});
+
+document.getElementById("collapse-about-button").addEventListener("click", function(){
+  resizeAboutButton(collapse=true);
+});
