@@ -258,6 +258,7 @@ let resultHidden = false;
 document.getElementById("result-hide-button").addEventListener("click", function() {
   resultHidden = !resultHidden;
   setRestaurantTab(resultHidden);
+  if (!resultHidden) resizeNavButton(keepCollapsed=true);
 });
 
 function updateRating(rating) {
@@ -367,6 +368,7 @@ function resizeNavButton(keepCollapsed=false) {
     filterContainer.style.overflowY = "auto";
     expandButton.classList.replace("show", "hide");
     collapseButton.classList.replace("hide", "show");
+    setRestaurantTab(hidden=true);
   }
 }
 
@@ -398,6 +400,8 @@ function updateLocation(result) {
   map.panTo(coords);
   map.setZoom(17);
   
+  // auto search if user gps is enabled
+  document.getElementById("submit-button").click();
   gtag('event', 'gps');
 }
 
