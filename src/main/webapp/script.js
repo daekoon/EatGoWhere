@@ -93,7 +93,8 @@ function initMap() {
     }
 
     resizeNavButton(keepCollapsed=true);
-    document.getElementById("result-container").classList.add("hide");
+    setRestaurantTab(hidden=true);
+    resultHidden=true;
 
     const url = new URL('/places-list', window.location.origin),
           params = {
@@ -124,7 +125,6 @@ let restaurants;
 let restaurantIndex = 0;
 function updateRestaurant(result) {
   let resContainerElement = document.getElementById("result-container");
-  resContainerElement.style.display = "block";
 
   shuffleArray(result);
   restaurants = result;
@@ -136,17 +136,7 @@ function updateRestaurant(result) {
     document.getElementById("restaurant-details").style.display = "flex";
     document.getElementById("no-result-text").style.display = "none";
 
-    resContainerElement.classList.remove("hide");
-    resContainerElement.scrollTop = 0;
-    document.getElementById("infowindow-restaurant-content").classList.remove("hide");
-
     updateRestaurantDetails(0);
-
-    // Show restaurant tab if hidden
-    if(resultHidden) {
-      resultHidden = false;
-      setRestaurantTab(resultHidden);
-    }
 
     // Hide next and previous buttons if only one restaurant
     if(result.length === 1) {
@@ -154,6 +144,16 @@ function updateRestaurant(result) {
     } else {
       document.getElementById("restaurant-buttons").style.display = "flex";
     }
+    resContainerElement.classList.remove("hide");
+    resContainerElement.scrollTop = 0;
+    document.getElementById("infowindow-restaurant-content").classList.remove("hide");
+  }
+  resContainerElement.classList.remove("hide");
+  
+  // Show restaurant tab if hidden
+  if(resultHidden) {
+    resultHidden = false;
+    setRestaurantTab(resultHidden);
   }
 }
 
@@ -254,10 +254,11 @@ document.getElementById("next-button").addEventListener("click", function() {
   nextRestaurant();
 });
 
-let resultHidden = false;
+let resultHidden = true;
 document.getElementById("result-hide-button").addEventListener("click", function() {
   resultHidden = !resultHidden;
   setRestaurantTab(resultHidden);
+  if (!resultHidden) resizeNavButton(keepCollapsed=true);
 });
 
 function updateRating(rating) {
@@ -367,6 +368,8 @@ function resizeNavButton(keepCollapsed=false) {
     filterContainer.style.overflowY = "auto";
     expandButton.classList.replace("show", "hide");
     collapseButton.classList.replace("hide", "show");
+    setRestaurantTab(hidden=true);
+    resultHidden = true;
   }
 }
 
@@ -398,6 +401,8 @@ function updateLocation(result) {
   map.panTo(coords);
   map.setZoom(17);
   
+  // auto search if user gps is enabled
+  document.getElementById("submit-button").click();
   gtag('event', 'gps');
 }
 
