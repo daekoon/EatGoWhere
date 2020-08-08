@@ -382,11 +382,11 @@ h1 {
 }
 
 .collapse-about-container {
-  left: -320px;
+  left: -360px;
 }
 
 .expand-about-container {
-  left: -30px;
+  left: -75px;
 }
 
 .linkedin-container:hover .linkedin-button-img{
@@ -440,6 +440,10 @@ h1 {
 
 #about-title {
   width: 50px;
+  position: relative;
+  background-color: white;
+  border-radius: 300px;
+  padding: 10px 0px 10px 40px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -516,6 +520,10 @@ h1 {
     margin-bottom: 6px;
     padding: 11px 12px 11px 12px; /*looks rounder this way for some reason*/
     background-color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+
+  #about-title {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   }
 }
