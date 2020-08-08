@@ -140,6 +140,10 @@ h1 {
   align-items: center;
 }
 
+#no-result-text {
+  text-align: center;
+}
+
 #restaurant-details {
   display: flex;
   flex-direction: column;
